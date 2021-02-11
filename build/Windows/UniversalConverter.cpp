@@ -4,14 +4,14 @@
 #pragma hdrstop
 #include <tchar.h>
 //---------------------------------------------------------------------------
-USEFORM("..\..\forms\UMain.cpp", Form1);
+USEFORM("..\..\forms\UMain.cpp", FormMain);
 //---------------------------------------------------------------------------
 extern "C" int FMXmain()
 {
    try
    {
        Application->Initialize();
-       Application->CreateForm(__classid(TForm1), &Form1);
+       Application->CreateForm(__classid(TFormMain), &FormMain);
        Application->Run();
    }
    catch (Exception &exception)

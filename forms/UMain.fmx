@@ -1,9 +1,10 @@
-object Form1: TForm1
+object FormMain: TFormMain
   Left = 0
   Top = 0
-  Caption = 'Form1'
+  Caption = 'Universal Converter'
   ClientHeight = 480
   ClientWidth = 720
+  WindowState = wsMaximized
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop, iPhone, iPad]
@@ -40,17 +41,18 @@ object Form1: TForm1
     end
   end
   object title: TLabel
+    Align = Top
     AutoSize = True
     StyledSettings = [Style, FontColor]
     Height = 60.000000000000000000
-    Position.X = 88.000000000000000000
-    Position.Y = 48.000000000000000000
+    Margins.Top = 50.000000000000000000
+    Position.Y = 50.000000000000000000
     TextSettings.Font.Family = 'Showcard Gothic'
     TextSettings.Font.Size = 48.000000000000000000
     TextSettings.HorzAlign = Center
     TextSettings.WordWrap = False
     Text = 'Universal Converter'
-    Width = 536.000000000000000000
+    Width = 720.000000000000000000
   end
   object categoryLabel: TLabel
     StyledSettings = [FontColor]
@@ -120,14 +122,15 @@ object Form1: TForm1
   object convert: TButton
     Cursor = crHandPoint
     StyledSettings = [Style, FontColor]
-    Height = 57.000000000000000000
-    Position.X = 264.000000000000000000
-    Position.Y = 384.000000000000000000
+    Height = 50.000000000000000000
+    Margins.Bottom = 50.000000000000000000
+    Position.X = 256.000000000000000000
+    Position.Y = 380.000000000000000000
     TabOrder = 8
     Text = 'CONVERT'
     TextSettings.Font.Family = 'Gadugi'
     TextSettings.Font.Size = 16.000000000000000000
-    Width = 169.000000000000000000
+    Width = 200.000000000000000000
     OnClick = convertClick
   end
 end

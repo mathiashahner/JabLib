@@ -15,7 +15,7 @@
 #include <FMX.Memo.hpp>
 #include <FMX.Objects.hpp>
 //---------------------------------------------------------------------------
-class TForm1 : public TForm
+class TFormMain : public TForm
 {
 __published:	// IDE-managed Components
    TComboBox *categoryList;
@@ -34,9 +34,9 @@ __published:	// IDE-managed Components
    void __fastcall convertClick(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
-   __fastcall TForm1(TComponent* Owner);
+   __fastcall TFormMain(TComponent* Owner);
 };
 //---------------------------------------------------------------------------
-extern PACKAGE TForm1 *Form1;
+extern PACKAGE TFormMain *FormMain;
 //---------------------------------------------------------------------------
 #endif

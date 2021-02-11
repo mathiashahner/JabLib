@@ -131,7 +131,7 @@
             <BuildOrder>0</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\forms\UMain.cpp">
-            <Form>Form1</Form>
+            <Form>FormMain</Form>
             <FormType>fmx</FormType>
             <DependentOn>..\..\forms\UMain.h</DependentOn>
             <BuildOrder>2</BuildOrder>
