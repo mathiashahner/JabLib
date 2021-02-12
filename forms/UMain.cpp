@@ -1,23 +1,19 @@
-//---------------------------------------------------------------------------
-
 #include <fmx.h>
 #pragma hdrstop
 
 #include "UMain.h"
+
 #include <stdio.h>
-//---------------------------------------------------------------------------
+#include <stdlib.h>
+
 #pragma package(smart_init)
 #pragma resource "*.fmx"
 TFormMain *FormMain;
-//---------------------------------------------------------------------------
+
 __fastcall TFormMain::TFormMain(TComponent* Owner)
    : TForm(Owner)
 {
 }
-//---------------------------------------------------------------------------
-
-
-
 
 void __fastcall TFormMain::convertClick(TObject *Sender)
 {
@@ -44,5 +40,3 @@ char * buff;
       }
    }
 }
-//---------------------------------------------------------------------------
-

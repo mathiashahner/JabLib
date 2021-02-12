@@ -89,7 +89,7 @@
         <BCC_PCHName_Clang>..\..\modInclude.h</BCC_PCHName_Clang>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
-        <IntermediateOutputDir>D:\TRABALHO\Meus Projetos\UniversalConverter\output\debug\</IntermediateOutputDir>
+        <IntermediateOutputDir>D:\TRABALHO\Meus Projetos\UniversalConverter\output\debug\TMP_UniversalConverter\</IntermediateOutputDir>
         <FinalOutputDir>D:\TRABALHO\Meus Projetos\UniversalConverter\output\debug\</FinalOutputDir>
         <BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
         <BCC_DisableOptimizations>true</BCC_DisableOptimizations>
@@ -118,7 +118,7 @@
         <ILINK_LibraryPath>$(BDS)\lib\win32\release\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
-        <IntermediateOutputDir>D:\TRABALHO\Meus Projetos\UniversalConverter\output\release\</IntermediateOutputDir>
+        <IntermediateOutputDir>D:\TRABALHO\Meus Projetos\UniversalConverter\output\release\TMP_UniversalConverter\</IntermediateOutputDir>
         <FinalOutputDir>D:\TRABALHO\Meus Projetos\UniversalConverter\output\release\</FinalOutputDir>
         <Defines>NDEBUG;$(Defines)</Defines>
         <TASM_Debugging>None</TASM_Debugging>
