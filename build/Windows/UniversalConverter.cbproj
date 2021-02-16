@@ -130,6 +130,9 @@
         <CppCompile Include="UniversalConverter.cpp">
             <BuildOrder>0</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\forms\CTemperature.cpp">
+            <BuildOrder>3</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\forms\UMain.cpp">
             <Form>FormMain</Form>
             <FormType>fmx</FormType>

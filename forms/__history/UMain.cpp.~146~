@@ -1,0 +1,57 @@
+#include <fmx.h>
+#pragma hdrstop
+
+#include "UMain.h"
+#include <CTemperature.h>
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#pragma package(smart_init)
+#pragma resource "*.fmx"
+TFormMain *FormMain;
+
+__fastcall TFormMain::TFormMain(TComponent* Owner)
+   : TForm(Owner)
+{
+}
+
+void __fastcall TFormMain::convertClick(TObject *Sender)
+{
+int category;
+
+   category = categoryList->ItemIndex;
+
+   switch (category)
+   {
+      case 0:
+      {
+         break;
+      }
+      case 1:
+      {
+         break;
+      }
+      case 2:
+      {
+         break;
+      }
+      case 3:
+      {
+      char * buffer;
+      int output;
+
+         //memset( buffer, 0, sizeof(buffer) );
+         strcpy( &buffer, input1->Text );
+
+         output = RomansToDecimal ( buffer );
+
+         input2->Text = IntToStr(output);
+         break;
+      }
+      default:
+      {
+         break;
+      }
+   }
+}
