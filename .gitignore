@@ -1,0 +1,13 @@
+*.res
+*.local
+*.obj
+*.#00
+*.#01
+*.pch
+*.ilc
+*.ild
+*.ilf
+*.ils
+*.map
+*.pdi
+*.tds
