@@ -42,7 +42,7 @@ int category;
       int output;
 
          //memset( buffer, 0, sizeof(buffer) );
-         strcpy( buffer, (char *)input1->Text.c_str() );
+         strcpy( (char *)buffer, (char *)input1->Text.c_str() );
 
          output = RomansToDecimal ( buffer );
 
