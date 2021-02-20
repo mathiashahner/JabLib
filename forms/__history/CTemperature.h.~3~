@@ -1,3 +1,0 @@
-#include <modInclude.h>
-
-void RomansToDecimal (char * buffer, int * output);

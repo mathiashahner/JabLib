@@ -18,7 +18,7 @@ object FormMain: TFormMain
   DesignerDeviceName = ''
   DesignerOrientation = 0
   DesignerOSVersion = ''
-  object Title: TLabel
+  object title: TLabel
     Align = Top
     Anchors = []
     AutoSize = True
@@ -35,7 +35,7 @@ object FormMain: TFormMain
     Text = 'Universal Converter'
     Width = 720.000000000000000000
   end
-  object Input2List: TComboBox
+  object input2List: TComboBox
     Anchors = []
     Cursor = crHandPoint
     DisableFocusEffect = False
@@ -49,7 +49,7 @@ object FormMain: TFormMain
     TabOrder = 1
     Width = 209.000000000000000000
   end
-  object Input1List: TComboBox
+  object input1List: TComboBox
     Anchors = []
     Cursor = crHandPoint
     DisableFocusEffect = False
@@ -63,7 +63,7 @@ object FormMain: TFormMain
     TabOrder = 0
     Width = 209.000000000000000000
   end
-  object Input1: TEdit
+  object input1: TEdit
     Touch.InteractiveGestures = [LongTap, DoubleTap]
     Anchors = []
     TabOrder = 6
@@ -72,7 +72,7 @@ object FormMain: TFormMain
     Width = 209.000000000000000000
     Height = 30.000000000000000000
   end
-  object Input2: TEdit
+  object input2: TEdit
     Touch.InteractiveGestures = [LongTap, DoubleTap]
     Anchors = []
     TabOrder = 5
@@ -81,7 +81,7 @@ object FormMain: TFormMain
     Width = 209.000000000000000000
     Height = 30.000000000000000000
   end
-  object ConvertButtom: TButton
+  object convert: TButton
     Align = Bottom
     Anchors = [akRight, akBottom]
     Cursor = crHandPoint
@@ -98,9 +98,9 @@ object FormMain: TFormMain
     TextSettings.Font.Size = 20.000000000000000000
     TextSettings.FontColor = claDarkslategray
     Width = 170.000000000000000000
-    OnClick = ConvertButtomClick
+    OnClick = convertClick
   end
-  object CategoryLabel: TLabel
+  object categoryLabel: TLabel
     Anchors = []
     AutoSize = True
     AutoTranslate = False
@@ -118,7 +118,7 @@ object FormMain: TFormMain
     Text = 'CHOOSE A CATEGORY:'
     Width = 213.000000000000000000
   end
-  object CategoryList: TComboBox
+  object categoryList: TComboBox
     Anchors = []
     Cursor = crHandPoint
     DisableFocusEffect = False

@@ -15,12 +15,12 @@ __fastcall TFormMain::TFormMain(TComponent* Owner)
 
 void __fastcall TFormMain::ConvertButtomClick(TObject *Sender)
 {
-//   if (StrToFloat(Input1->Text) == 0)
-//   {
-//      MessageBoxA( NULL, "Enter a Valid Entry!", "Invalid Input", 0 );
-//   }
-//   else
-//   {
+   if ((Input1->Text) == NULL)
+   {
+      MessageBoxA( NULL, "Enter a Valid Entry!", "Invalid Input", 0 );
+   }
+   else
+   {
    int category;
 
       category = CategoryList->ItemIndex;
@@ -51,5 +51,5 @@ void __fastcall TFormMain::ConvertButtomClick(TObject *Sender)
             break;
          }
       }
-//   }
+   }
 }

@@ -1,6 +1,7 @@
+//---------------------------------------------------------------------------
 #ifndef UMainH
 #define UMainH
-
+//---------------------------------------------------------------------------
 #include <System.Classes.hpp>
 #include <FMX.Controls.hpp>
 #include <FMX.Forms.hpp>
@@ -15,7 +16,7 @@
 #include <FMX.Menus.hpp>
 #include <FMX.ActnList.hpp>
 #include <System.Actions.hpp>
-
+//---------------------------------------------------------------------------
 class TFormMain : public TForm
 {
 __published:	// IDE-managed Components
@@ -32,7 +33,7 @@ private:	// User declarations
 public:		// User declarations
    __fastcall TFormMain(TComponent* Owner);
 };
-
+//---------------------------------------------------------------------------
 extern PACKAGE TFormMain *FormMain;
-
+//---------------------------------------------------------------------------
 #endif

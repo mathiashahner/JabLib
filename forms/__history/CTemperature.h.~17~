@@ -1,0 +1,3 @@
+ConvertToString( float result );
+
+char * CelciusToKelvin (float temperature);

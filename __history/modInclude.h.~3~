@@ -6,10 +6,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 #include <CTemperature.h>
 
-#define KELVIN_UNIT      K
-#define CELSIUS_UNIT    °C
-#define FAHRENHEIT_UNIT °F
+#define KELVIN 273.15
