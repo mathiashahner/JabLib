@@ -4,7 +4,8 @@
 #pragma resource "*.fmx"
 
 #include "UMain.h"
-#include "modInclude.h"
+#include <modInclude.h>
+#include <TTemperature.h>
 
 TFormMain *FormMain;
 
@@ -24,6 +25,7 @@ int category;
       case 0: // NULL Option
       {
          MessageBoxA( NULL, "Choose a Category to Continue!", "Invalid Option", 0 );
+         CategoryList->ListItems(4);
          break;
       }
       case 1: // Distance

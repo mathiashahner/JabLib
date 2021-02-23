@@ -24,9 +24,7 @@ int category;
    {
       case 0: // NULL Option
       {
-         MessageBoxA( NULL, "Choose a category to continue!", "Invalid Option", 0 );
-         MessageBoxA( NULL, "Enter a valid entry!", "Invalid Input", 0 );
-
+         MessageBoxA( NULL, "Choose a Category to Continue!", "Invalid Option", 0 );
          break;
       }
       case 1: // Distance
@@ -37,7 +35,7 @@ int category;
       {
          break;
       }
-      case 3: // Temperature
+      case 3: // Temperature     //MessageBoxA( NULL, "Enter a Valid Entry!", "Invalid Input", 0 );
       {
          Input2->Text = CelciusToKelvin( StrToFloat(Input1->Text) );
 
