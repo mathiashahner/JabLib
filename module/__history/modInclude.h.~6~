@@ -1,0 +1,10 @@
+#ifndef _MODINCLUDE_H_
+#define _MODINCLUDE_H_
+
+#include <fmx.h>
+
+//#ifdef _WIN32
+//#include <tchar.h>
+//#endif
+
+#endif

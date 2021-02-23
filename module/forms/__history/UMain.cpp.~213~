@@ -23,7 +23,7 @@ int category;
    {
       case 0: // NULL Option
       {
-         MessageBoxA(NULL, "Choose a Category to continue!", "Invalid Option", 0 );
+         MessageBoxA( NULL, "Choose a Category to Continue!", "Invalid Option", 0 );
          break;
       }
       case 1: // Distance

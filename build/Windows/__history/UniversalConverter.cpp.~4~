@@ -2,8 +2,8 @@
 #pragma hdrstop
 #include <tchar.h>
 
-USEFORM("..\..\module\forms\UMain.cpp", FormMain);
-//---------------------------------------------------------------------------
+USEFORM("..\..\forms\UMain.cpp", FormMain);
+
 extern "C" int FMXmain()
 {
    try
