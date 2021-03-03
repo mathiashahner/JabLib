@@ -5,6 +5,7 @@
 
 #include "UMain.h"
 #include <modInclude.h>
+#include <TCommonRoutines.h>
 #include <TTemperature.h>
 
 TFormMain *FormMain;
@@ -16,7 +17,7 @@ __fastcall TFormMain::TFormMain(TComponent* Owner)
 
 void __fastcall TFormMain::ConvertButtomClick(TObject *Sender)
 {
-int category;
+int category, aux;
 
    category = CategoryList->ItemIndex;
 
@@ -24,8 +25,8 @@ int category;
    {
       case 0: // NULL Option
       {
-         MessageBoxA( NULL, "Choose a category to continue!", "Invalid option", 0 );
-         //MessageBoxA( NULL, "Enter a Valid Entry!", "Invalid Input", 0 );
+         MessageBoxA( NULL, "Choose a category to continue!", "Invalid Option", 0 );
+         //MessageBoxA( NULL, "Enter a valid entry!", "Invalid Input", 0 );
 
          break;
       }
@@ -39,7 +40,9 @@ int category;
       }
       case 3: // Temperature
       {
-         Input2->Text = CelciusToKelvin( StrToFloat(Input1->Text) );
+      float temperature;
+
+         Input2->Text = CelciusToKelvin( StrToFloat( Input1->Text ));
 
          break;
       }

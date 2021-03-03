@@ -2,7 +2,7 @@
 #include <TCommonRoutines.h>
 #include <TTemperature.h>
 
-float CelciusToKelvin( float temperature )
+float CelciusToKelvin ( float temperature )
 {
 float result;
 

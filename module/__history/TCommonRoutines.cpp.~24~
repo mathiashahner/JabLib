@@ -6,7 +6,7 @@ char * FloatToString( float buffer )
 int aux;
 char * result;
 
-   aux = snprintf( result, sizeof(buffer), "%.2f", buffer );
+   snprintf( result, sizeof() );
 
    return result;
 }

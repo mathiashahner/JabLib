@@ -2,9 +2,11 @@
 #include <TCommonRoutines.h>
 #include <TTemperature.h>
 
-float CelciusToKelvin( float temperature )
+float CelciusToKelvin ( wchar_t temperature )
 {
 float result;
+
+   result = StrToFloat( temperature );
 
    result = temperature + 273.15;
 

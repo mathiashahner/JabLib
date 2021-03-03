@@ -51,7 +51,7 @@
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
         <Multithreaded>true</Multithreaded>
-        <_TCHARMapping>wchar_t</_TCHARMapping>
+        <_TCHARMapping>char</_TCHARMapping>
         <AllPackageLibs>rtl.lib;fmx.lib</AllPackageLibs>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
         <ProjectType>FmxGuiApplication</ProjectType>

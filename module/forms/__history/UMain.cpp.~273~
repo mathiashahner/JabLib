@@ -16,7 +16,7 @@ __fastcall TFormMain::TFormMain(TComponent* Owner)
 
 void __fastcall TFormMain::ConvertButtomClick(TObject *Sender)
 {
-int category;
+int category, aux;
 
    category = CategoryList->ItemIndex;
 
@@ -39,7 +39,9 @@ int category;
       }
       case 3: // Temperature
       {
-         Input2->Text = CelciusToKelvin( StrToFloat(Input1->Text) );
+      float temperature;
+
+         Input2->Text = CelciusToKelvin( StrToFloat( Input1->Text ));
 
          break;
       }

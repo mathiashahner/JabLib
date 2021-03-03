@@ -1,6 +1,6 @@
 #ifndef _TCOMMONROUTINES_H_
 #define _TCOMMONROUTINES_H_
 
-char * FloatToString( float buffer );
+float StrToFloat ( unsigned char buffer );
 
 #endif

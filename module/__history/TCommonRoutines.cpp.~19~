@@ -1,0 +1,11 @@
+#include <modInclude.h>
+#include <TCommonRoutines.h>
+
+char * FloatToStr( float buffer )
+{
+char * result;
+
+   result = snprintf( result, sizeof(char), "%.2f", buffer );
+
+   return result;
+}

@@ -25,7 +25,7 @@ int category, inputOption;
    {
       case 0: // NULL Option
       {
-         MessageBoxA( NULL, "Choose a category to continue!", "Invalid Option", 0 );
+         ShowModal( MessageBoxA( NULL, "Choose a category to continue!", "Invalid Option", 0 ));
          //MessageBoxA( NULL, "Enter a valid entry!", "Invalid Input", 0 );
 
          break;

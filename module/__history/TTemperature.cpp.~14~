@@ -8,5 +8,5 @@ float result;
 
    result = temperature + 273.15;
 
-   return result;
+   return FloatToStr( result );
 }

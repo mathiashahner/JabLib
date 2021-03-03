@@ -1,0 +1,8 @@
+#include <modInclude.h>
+#include <TCommonRoutines.h>
+
+char * FloatToStr ( float buffer )
+{
+
+   return * buffer;
+}

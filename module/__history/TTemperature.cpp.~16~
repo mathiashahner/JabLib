@@ -4,9 +4,5 @@
 
 float CelciusToKelvin( float temperature )
 {
-float result;
-
-   result = temperature + 273.15;
-
-   return result;
+   return temperature + 273.15;
 }
