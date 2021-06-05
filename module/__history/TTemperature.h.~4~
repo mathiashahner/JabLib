@@ -1,6 +1,0 @@
-#ifndef _TTEMPERATURE_H_
-#define _TTEMPERATURE_H_
-
-float CelciusToKelvin ( wchar_t temperature );
-
-#endif

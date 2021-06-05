@@ -1,6 +1,0 @@
-#ifndef _TCOMMONROUTINES_H_
-#define _TCOMMONROUTINES_H_
-
-char * FloatToStr ( float buffer );
-
-#endif
