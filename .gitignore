@@ -1,5 +1,5 @@
 output/
-__history
+__history/
 
 *.res
 *.local
