@@ -6,6 +6,9 @@
         <Projects Include="build\JabLib.cbproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="build\JabLibTest.cbproj">
+            <Dependencies>build\JabLib.cbproj</Dependencies>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -23,14 +26,23 @@
     <Target Name="JabLib:Make">
         <MSBuild Projects="build\JabLib.cbproj" Targets="Make"/>
     </Target>
+    <Target Name="JabLibTest" DependsOnTargets="JabLib">
+        <MSBuild Projects="build\JabLibTest.cbproj"/>
+    </Target>
+    <Target Name="JabLibTest:Clean" DependsOnTargets="JabLib:Clean">
+        <MSBuild Projects="build\JabLibTest.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="JabLibTest:Make" DependsOnTargets="JabLib:Make">
+        <MSBuild Projects="build\JabLibTest.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="JabLib"/>
+        <CallTarget Targets="JabLib;JabLibTest"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="JabLib:Clean"/>
+        <CallTarget Targets="JabLib:Clean;JabLibTest:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="JabLib:Make"/>
+        <CallTarget Targets="JabLib:Make;JabLibTest:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
