@@ -26,10 +26,9 @@
 #include <winerror.h>
 #include <WinCrypt.h>
 #include <Shlwapi.h>
-#include <ncrypt.h>
 #include <tchar.h>
 #include <oleacc.h>
-#include <ncrypt.h>
+//#include <ncrypt.h>
 #include <WinCrypt.h>
 
 #include <winioctl.h>

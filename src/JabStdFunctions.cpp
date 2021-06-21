@@ -1,4 +1,3 @@
-#include <JabLib.h>
 #include <JabStdFunctions.h>
 
 size_t JabStdFunctions::strlen( char * buffer, size_t len )
