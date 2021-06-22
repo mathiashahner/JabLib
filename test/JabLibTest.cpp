@@ -1,12 +1,11 @@
 #include <StdInclude.h>
-//#include <JabLibTest.h>
 #include <JabStdFunctions.h>
-
-JabStdFunctions JAB;
 
 int main()
 {
-   printf("%d\n", JAB.strlen((char*)"mathias"));
+   // Tests for JabLib
+   
+   printf("strlen = %d\n", JAB.strlen((char*)"JabLib"));
 
    system("pause");
 	return 0;

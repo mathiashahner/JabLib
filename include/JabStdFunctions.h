@@ -5,13 +5,15 @@
 
 class JabStdFunctions
 {
-public:
+public: // Function with Strings
    size_t strlen( char * buffer, size_t len = 0 );
    bool strcpy( char * destination, char * source );
 
-private:
+public: // Function conversion types
+   int ToInt( char * buffer );
+   int ToInt( char * buffer, size_t len );
 };
 
-//extern JabStdFunctions JAB;
+extern JabStdFunctions JAB;
 
 #endif
