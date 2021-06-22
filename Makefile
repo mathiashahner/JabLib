@@ -5,9 +5,20 @@ TEST    = ./test
 OBJ     = $(BUILD)/obj
 LIB     = $(BUILD)/JabLib.a
 
-FLAGS   = -O3 -Wall
+FLAGS = -O3 -Wall
+MAKE_BUILD_PATH = mkdir $(BUILD) $(OBJ)
 
-all: obj bin
+all: path obj bin
+
+clean:
+	rm -rf $(BUILD)
+	$(MAKE_BUILD_PATH)
+
+run:
+	$(BUILD)/JabLibTest
+
+path:
+	if [ ! -d $(BUILD) ]; then $(MAKE_BUILD_PATH); fi
 
 obj: $(OBJ)/JabStdFunctions.o
 	ar -rcs $(LIB) $(OBJ)/*.o
@@ -19,10 +30,3 @@ $(OBJ)/%.o: $(SRC)/%.cpp $(INCLUDE)/%.h
 
 $(BUILD)/%: $(TEST)/%.cpp
 	gcc $(FLAGS) $< $(LIB) -I $(INCLUDE) -o $@
-
-run:
-	$(BUILD)/JabLibTest
-
-clean:
-	rm -rf $(BUILD)
-	mkdir $(BUILD) $(OBJ)
