@@ -2,53 +2,26 @@
 
 JabStdFunctions JAB;
 
-size_t JabStdFunctions::strlen( char * buffer, size_t len )
+int JabStdFunctions::ToInt(char *buffer)
 {
-   if( buffer != NULL )
-   {
-      size_t count = 0;
-      while ( buffer[count] != '\0' )
-      {
-         len++;
-         count++;
-      }
-   }
-   return len;
+   return (buffer, strlen(buffer));
 }
 
-bool JabStdFunctions::strcpy( char * destination, char * source )
+int JabStdFunctions::ToInt(char *buffer, size_t len)
 {
-   return 0;
-}
+   int result = 0;
+   char buffTmp[len];
 
-int JabStdFunctions::ToInt( char * buffer )
-{
-int result = 0;
-
-   if ( buffer == NULL )
-   {
-      printf("-> Buffer is NULL.\n");
-   }
-   else
-   {
-      result = atoi(buffer);
-   }
-
-   return result;
-}
-
-int JabStdFunctions::ToInt( char * buffer, size_t len )
-{
-char buffTmp[len];
-
-   if ( buffer == NULL )
+   if (buffer == NULL)
    {
       printf("-> Buffer is NULL.\n");
    }
    else
    {
       strncpy(buffTmp, buffer, len);
+
+      result = atoi(buffer);
    }
 
-   return(ToInt(buffTmp));
+   return (ToInt(buffTmp));
 }
