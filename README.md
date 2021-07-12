@@ -29,7 +29,7 @@ Functions that can be useful!
 
 ### Configuration command "Make" (Windows):
 
-- Press the keys "Win + R", type "cmd" and press "Enter"
+- Press the keys "Win + X", after "A", accept the Administrator Permission
 - Paste the command line bellow:
 
-<code>choco install make</code>
+   <code>Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))</code>
