@@ -15,5 +15,5 @@ size_t JabMath::Pot( size_t num, size_t exp );
    {
       result *= num;
    }
-   return result;
+   return( result );
 }
