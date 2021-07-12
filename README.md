@@ -29,11 +29,11 @@ Functions that can be useful!
 
 ### Configuration command "Make" (Windows):
 
-- Press the keys "Win + X", after "A", accept the Administrator Permission
-- Paste the command line bellow:
+- Press the keys "Win + X", after "A" and accept the Administrator Permission
+- Paste the command line bellow and press "Enter":
 
    <code>Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))</code>
 
-- After paste the command line:
+- After paste the command line and press "Enter":
 
    <code>choco install make</code>
