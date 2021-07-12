@@ -1,6 +1,8 @@
 # JabLib
 
-## Compiler Installation:
+Functions that can be useful!
+
+### Compiler Installation:
 
 - Go to site: https://sourceforge.net/projects/mingw/ and click in "Download"
 - Run the downloaded file and proceed through the installation screens
@@ -11,7 +13,8 @@
 
 - Click on the "Apply" button and wait the download finish
 
-## Configuration of the environment variables (Windows):
+
+### Configuration of the environment variables (Windows):
 
 - Search for "Environment Variables" on the Start Menu
 
@@ -22,3 +25,11 @@
 ![image](https://user-images.githubusercontent.com/62864819/125222338-306c9800-e2a0-11eb-9a90-d44d315359db.png)
 
 - Click on the "OK" buttons of the screens
+
+
+### Configuration command "Make" (Windows):
+
+- Press the keys "Win + R", type "cmd" and press "Enter"
+- Paste the command line bellow:
+
+<code>choco install make</code>
