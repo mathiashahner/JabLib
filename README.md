@@ -15,7 +15,7 @@
 
 - Search for "Environment Variables" on the Start Menu
 
-![image](https://user-images.githubusercontent.com/62864819/125222328-2ba7e400-e2a0-11eb-869e-6f755ed7f013.png)
+![image](https://user-images.githubusercontent.com/62864819/125222676-d7513400-e2a0-11eb-9da2-0d24fb10c77d.png)
 
 - Click in "Environment Variables...", select "Path", click in "Edit", "New" and paste "C:\MinGW\bin" (or the path where the compiler is installed)
 
