@@ -20,7 +20,8 @@ run:
 path:
 	if [ ! -d $(BUILD) ]; then $(MAKE_BUILD_PATH); fi
 
-obj: $(OBJ)/JabStdFunctions.o
+obj: $(OBJ)/JabStdFunctions.o \
+	$(OBJ)/JabMath.o
 	ar -rcs $(LIB) $(OBJ)/*.o
 
 bin: $(BUILD)/JabLibTest

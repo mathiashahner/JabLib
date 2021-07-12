@@ -4,9 +4,12 @@
 int main()
 {
    // Tests for JabLib
-   
-   printf("strlen = %d\n", JAB.strlen((char*)"JabLib"));
+
+   printf("ToInt = %d\n", JAB.ToInt((char *)"12345"));
+   printf("Pot = %d\n", JAB.Pot( 5 ));
+   printf("Pot = %d\n", JAB.Pot( 5, 3 ));
+   printf("Pot = %d\n", JAB.Pot( 2, 5 ));
 
    system("pause");
-	return 0;
+   return 0;
 }

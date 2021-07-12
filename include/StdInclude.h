@@ -1,28 +1,31 @@
 #ifndef _STDINCLUDE_H_
 #define _STDINCLUDE_H_
 
+//#define _BUILD_WINDOWS
+
 #include <stdio.h>
 #include <stdlib.h>
-#include <stddef.h>
 #include <stdint.h>
-#include <errno.h>
-#include <windows.h>
-#include <limits.h>
+#include <stddef.h>
 #include <string.h>
-#include <time.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <dirent.h>
-#include <wchar.h>
-#include <winsock2.h>
-#include <windows.h>
-#include <winioctl.h>
-#include <winerror.h>
-#include <WinCrypt.h>
-#include <Shlwapi.h>
 #include <tchar.h>
+#include <wchar.h>
+
+#include <time.h>
+#include <limits.h>
+#include <dirent.h>
 #include <oleacc.h>
-#include <WinCrypt.h>
-#include <winioctl.h>
+
+#ifdef _BUILD_WINDOWS
+   #include <windows.h>
+   #include <winioctl.h>
+   #include <winsock2.h>
+   #include <WinCrypt.h>
+   #include <winerror.h>
+   #include <errno.h>
+   #include <Shlwapi.h>
+   #include <sys/stat.h>
+   #include <sys/types.h>
+#endif
 
 #endif
