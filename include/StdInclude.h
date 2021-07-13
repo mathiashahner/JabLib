@@ -1,7 +1,7 @@
 #ifndef _STDINCLUDE_H_
 #define _STDINCLUDE_H_
 
-//#define _BUILD_WINDOWS
+#define _BUILD_WINDOWS
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,7 +14,6 @@
 #include <time.h>
 #include <limits.h>
 #include <dirent.h>
-#include <oleacc.h>
 
 #ifdef _BUILD_WINDOWS
    #include <windows.h>

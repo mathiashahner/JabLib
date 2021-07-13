@@ -6,11 +6,11 @@
 class JabStdFunctions
 {
 public: // Functions conversion types
-   int ToInt(char *buffer);
-   int ToInt(char *buffer, size_t len);
+   int ToInt( char *buffer );
+   int ToInt( char *buffer, size_t len );
 
 public: // Function with strings
-   int CharacterCount(char * buffer, char * BuffCmp);
+   int CharacterCount( char * buffer, char * BuffCmp );
 };
 
 extern JabStdFunctions JAB;

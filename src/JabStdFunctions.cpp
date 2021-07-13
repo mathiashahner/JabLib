@@ -1,45 +1,46 @@
 #include <JabStdFunctions.h>
+#include <JabMath.h>
 
 JabStdFunctions JAB;
 
 int JabStdFunctions::ToInt( char * buffer )
 {
-   return( buffer, strlen( buffer ));
+   return ToInt( buffer, strlen(buffer));
 }
 
 int JabStdFunctions::ToInt( char * buffer, size_t len )
 {
-   int result;
-   char buffTmp[len];
-
-   if( buffer == NULL )
+   int result = 0;
+   
+   if ( buffer == NULL )
    {
       printf("-> Buffer is NULL.\n");
    }
    else
    {
-      strncpy( buffTmp, buffer, len );
-      result = atoi( buffTmp );
-   }
+      char buffTmp[len];
 
-   return( result );
+      strncpy( buffTmp, buffer, len );
+      result = atoi(buffTmp);
+   }
+   return result;
 }
 
-int JabStdFunctions::CharacterCount(char * Buff, char * BuffCmp)
+int JabStdFunctions::CharacterCount( char * Buff, char * BuffCmp )
 {
-   int i, j, result = 0;
+   int count, countAux, result = 0;
 
-   for( i=0; Buff[i] != '\0'; i++ )
+   for ( count=0; Buff[count] != '\0'; count++ )
    {
-      for( j=0; BuffCmp[j] != '\0'; j++ )
+      for ( countAux=0; BuffCmp[countAux] != '\0'; countAux++ )
       {
-         if(( Buff[i] == BuffCmp[j] ) && ( BuffCmp[j] != ' ' ))
+         if (( Buff[count] == BuffCmp[countAux] ) && ( BuffCmp[countAux] != ' ' ))
          {
-            BuffCmp[j] = ' ';
+            BuffCmp[countAux] = ' ';
             result++;
             break;
          }
       }
    }
-   return( result );
+   return result;
 }

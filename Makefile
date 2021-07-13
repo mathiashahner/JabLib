@@ -1,33 +1,33 @@
-BUILD   = ./build
-INCLUDE = ./include
-SRC     = ./src
-TEST    = ./test
-OBJ     = $(BUILD)/obj
-LIB     = $(BUILD)/JabLib.a
+PATH_BUILD   = ./build
+PATH_INCLUDE = ./include
+PATH_SOURCE  = ./src
+PATH_TEST    = ./test
+PATH_OBJECT  = $(PATH_BUILD)/obj
+PATH_LIBRARY = $(PATH_BUILD)/JabLib.a
 
+MAKE_BUILD_PATH = mkdir $(PATH_BUILD) $(PATH_OBJECT)
 FLAGS = -O3 -Wall
-MAKE_BUILD_PATH = mkdir $(BUILD) $(OBJ)
 
 all: path obj bin
 
 clean:
-	rm -rf $(BUILD)
+	rm -rf $(PATH_BUILD)
 	$(MAKE_BUILD_PATH)
 
 run:
-	$(BUILD)/JabLibTest
+	$(PATH_BUILD)/JabLibTest
 
 path:
-	if [ ! -d $(BUILD) ]; then $(MAKE_BUILD_PATH); fi
+	if [ ! -d $(PATH_BUILD) ]; then $(MAKE_BUILD_PATH); fi
 
-obj: $(OBJ)/JabStdFunctions.o \
-	$(OBJ)/JabMath.o
-	ar -rcs $(LIB) $(OBJ)/*.o
+obj: $(PATH_OBJECT)/JabStdFunctions.o \
+	$(PATH_OBJECT)/JabMath.o
+	ar -rcs $(PATH_LIBRARY) $(PATH_OBJECT)/*.o
 
-bin: $(BUILD)/JabLibTest
+bin: $(PATH_BUILD)/JabLibTest
 
-$(OBJ)/%.o: $(SRC)/%.cpp $(INCLUDE)/%.h
-	gcc $(FLAGS) -c $< -I $(INCLUDE) -o $@
+$(PATH_OBJECT)/%.o: $(PATH_SOURCE)/%.cpp $(PATH_INCLUDE)/%.h
+	gcc $(FLAGS) -c $< -I $(PATH_INCLUDE) -o $@
 
-$(BUILD)/%: $(TEST)/%.cpp
-	gcc $(FLAGS) $< $(LIB) -I $(INCLUDE) -o $@
+$(PATH_BUILD)/%: $(PATH_TEST)/%.cpp
+	gcc $(FLAGS) $< $(PATH_LIBRARY) -I $(PATH_INCLUDE) -o $@
