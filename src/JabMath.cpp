@@ -16,3 +16,28 @@ size_t JabMath::Pot( size_t num, size_t exp )
    }
    return result;
 }
+
+size_t JabMath::Factorial( size_t num )
+{
+   size_t count, result;
+
+   if ( num < 0 )
+   {
+      result = 0;
+      printf("ERROR: factorial can't be calculated\n");
+   }
+   else if ( num == 0 )
+   {
+      result = 1;
+   }
+   else
+   {
+      result = num;
+
+      for ( count = 1; count < num; count++ )
+      {
+         result *= ( num - count );
+      }
+   }
+   return result;
+}
