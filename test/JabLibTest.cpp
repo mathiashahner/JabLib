@@ -1,27 +1,52 @@
 #include <StdInclude.h>
 #include <JabStdFunctions.h>
-#include <JabMath.h>
 
-#define JABUG printf
+BOOL CheckFunction( char * nameFunction, size_t inputValue, size_t expectedReturn, size_t line = __LINE__ );
+
+size_t count = 0;
 
 int main()
 {
-   printf("ToInt = %d\n", JAB.ToInt((char *)"12345"));
-
    JabMath Math;
 
-   printf("Pot = %d\n", Math.Pot( 5 ));
-   printf("Pot = %d\n", Math.Pot( 5, 3 ));
-   printf("Pot = %d\n", Math.Pot( 2, 5 ));
-   Math.Factorial( -1 );
+   CheckFunction((char*)"ToInt", JAB.ToInt((char*)"12345"), 12345 );
+   CheckFunction((char*)"ToInt", JAB.ToInt((char*)"-123"), -123 );
+   CheckFunction((char*)"ToInt", JAB.ToInt((char*)"0"), 0 );
 
-   system("pause");
+   CheckFunction((char*)"Pot", Math.Pot( 5 ), 25 );
+   CheckFunction((char*)"Pot", Math.Pot( 5, 3 ), 125 );
+   CheckFunction((char*)"Pot", Math.Pot( 2, 5 ), 32 );
+   CheckFunction((char*)"Pot", Math.Pot( -3 ), 9 );
+   CheckFunction((char*)"Pot", Math.Pot( -3, 3 ), -27 );
+
+   CheckFunction((char*)"Pot", Math.Factorial( -1 ), 0 );
+   CheckFunction((char*)"Pot", Math.Factorial( 0 ), 1 );
+   CheckFunction((char*)"Pot", Math.Factorial( 5 ), 120 );
+   CheckFunction((char*)"Pot", Math.Factorial( 7 ), 5040 );
+
+   system("PAUSE");
    return 0;
 }
 
-BOOL CheckFunction( size_t inputFunction, size_t expectedReturn )
+BOOL CheckFunction( char * nameFunction, size_t inputValue, size_t expectedReturn, size_t line )
 {
    BOOL result = FALSE;
+
+   result = ( inputValue == expectedReturn );
+   if ( !result )
+   {
+      printf("\n\nERRO | Function=[%s] Line=[%d] inputValue=[%d] expectedReturn=[%d]\n",
+         nameFunction, line, inputValue, expectedReturn );
+
+      system("PAUSE");
+   }
+   else
+   {
+      printf("%04d | Function=[%s] inputValue=[%d] expectedReturn=[%d]\n",
+         count, nameFunction, inputValue, expectedReturn );
+
+      count++;
+   }   
 
    return result;
 }

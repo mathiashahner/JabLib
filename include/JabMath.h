@@ -5,14 +5,13 @@
 
 class JabMath
 {
-public: // Function conversion types
+public:
    size_t Pot( size_t num );
    size_t Pot( size_t num, size_t exp );
+   size_t Factorial( size_t num );
 
    // float
    // raiz
-   
-   size_t Factorial( size_t num );
 };
 
 #endif

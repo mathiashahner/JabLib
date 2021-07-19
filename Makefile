@@ -14,9 +14,6 @@ clean:
 	rm -rf $(PATH_BUILD)
 	$(MAKE_BUILD_PATH)
 
-run:
-	$(PATH_BUILD)/JabLibTest
-
 path:
 	if [ ! -d $(PATH_BUILD) ]; then $(MAKE_BUILD_PATH); fi
 
@@ -25,6 +22,9 @@ obj: $(PATH_OBJECT)/JabStdFunctions.o \
 	ar -rcs $(PATH_LIBRARY) $(PATH_OBJECT)/*.o
 
 bin: $(PATH_BUILD)/JabLibTest
+
+run:
+	$(PATH_BUILD)/JabLibTest
 
 $(PATH_OBJECT)/%.o: $(PATH_SOURCE)/%.cpp $(PATH_INCLUDE)/%.h
 	gcc $(FLAGS) -c $< -I $(PATH_INCLUDE) -o $@

@@ -10,7 +10,7 @@ size_t JabMath::Pot( size_t num, size_t exp )
    size_t count, result;
    result = num;
 
-   for ( count = 0; count < exp; count++ )
+   for ( count = 1; count < exp; count++ )
    {
       result *= num;
    }
