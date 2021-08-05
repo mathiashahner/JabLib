@@ -1,7 +1,7 @@
 #include <StdInclude.h>
 #include <JabStdFunctions.h>
 
-BOOL CheckFunction( char * nameFunction, size_t inputValue, size_t expectedReturn, size_t line = __LINE__ );
+bool CheckFunction( char * nameFunction, size_t inputValue, size_t expectedReturn, size_t line = __LINE__ );
 
 size_t count = 0;
 
@@ -24,13 +24,20 @@ int main()
    CheckFunction((char*)"Pot", Math.Factorial( 5 ),  120 );
    CheckFunction((char*)"Pot", Math.Factorial( 7 ),  5040 );
 
+   int vet[] = {1,3,5,7,13};
+
+   CheckFunction((char*)"Search", JAB.Search( 1, vet, 5 ), TRUE );
+   CheckFunction((char*)"Search", JAB.Search( 2, vet, 5 ), FALSE );
+   CheckFunction((char*)"Search", JAB.Search( 3, vet, 5 ), TRUE );
+   CheckFunction((char*)"Search", JAB.Search( 13, vet, 5 ), TRUE );
+
    system("PAUSE");
    return 0;
 }
 
-BOOL CheckFunction( char * nameFunction, size_t inputValue, size_t expectedReturn, size_t line )
+bool CheckFunction( char * nameFunction, size_t inputValue, size_t expectedReturn, size_t line )
 {
-   BOOL result = FALSE;
+   bool result = FALSE;
 
    result = ( inputValue == expectedReturn );
    if ( !result )

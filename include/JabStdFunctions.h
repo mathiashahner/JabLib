@@ -12,6 +12,9 @@ public: // Functions conversion types
 
 public: // Function with strings
    int CharacterCount( char * buffer, char * BuffCmp );
+
+public:
+   bool Search( size_t value, void * buffer, size_t len );
 };
 
 extern JabStdFunctions JAB;
