@@ -1,5 +1,4 @@
 #include <JabStdFunctions.h>
-#include <JabMath.h>
 
 JabStdFunctions JAB;
 

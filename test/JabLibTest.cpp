@@ -9,20 +9,20 @@ int main()
 {
    JabMath Math;
 
+   CheckFunction((char*)"ToInt", JAB.ToInt((char*)"0"),     0 );
    CheckFunction((char*)"ToInt", JAB.ToInt((char*)"12345"), 12345 );
    CheckFunction((char*)"ToInt", JAB.ToInt((char*)"-123"), -123 );
-   CheckFunction((char*)"ToInt", JAB.ToInt((char*)"0"), 0 );
 
-   CheckFunction((char*)"Pot", Math.Pot( 5 ), 25 );
-   CheckFunction((char*)"Pot", Math.Pot( 5, 3 ), 125 );
-   CheckFunction((char*)"Pot", Math.Pot( 2, 5 ), 32 );
-   CheckFunction((char*)"Pot", Math.Pot( -3 ), 9 );
+   CheckFunction((char*)"Pot", Math.Pot( -3 ),     9 );
+   CheckFunction((char*)"Pot", Math.Pot( 5 ),      25 );
+   CheckFunction((char*)"Pot", Math.Pot( 2, 5 ),   32 );
+   CheckFunction((char*)"Pot", Math.Pot( 5, 3 ),   125 );
    CheckFunction((char*)"Pot", Math.Pot( -3, 3 ), -27 );
 
    CheckFunction((char*)"Pot", Math.Factorial( -1 ), 0 );
-   CheckFunction((char*)"Pot", Math.Factorial( 0 ), 1 );
-   CheckFunction((char*)"Pot", Math.Factorial( 5 ), 120 );
-   CheckFunction((char*)"Pot", Math.Factorial( 7 ), 5040 );
+   CheckFunction((char*)"Pot", Math.Factorial( 0 ),  1 );
+   CheckFunction((char*)"Pot", Math.Factorial( 5 ),  120 );
+   CheckFunction((char*)"Pot", Math.Factorial( 7 ),  5040 );
 
    system("PAUSE");
    return 0;
