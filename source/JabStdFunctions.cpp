@@ -56,3 +56,20 @@ bool JabStdFunctions::Search( size_t value, void * buffer, size_t len )
 
    return ( result != NULL );
 }
+
+void JabStdFunctions::StrPadding( char * buffer, char * bufferOutput, size_t lenMax, char charPadding )
+{
+   if ( buffer == NULL )
+   {
+      printf("-> Buffer is NULL.\n");
+   }
+   else
+   {
+      strncpy( bufferOutput, buffer, lenMax );
+
+      for ( size_t count=strlen(buffer); count<lenMax; count++ )
+      {
+         bufferOutput[count] = charPadding;
+      }
+   }
+}
