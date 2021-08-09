@@ -1,7 +1,7 @@
 PATH_BUILD   = ./build
-PATH_INCLUDE = ./include
 PATH_SOURCE  = ./source
 PATH_TEST    = ./test
+PATH_INCLUDE = ./include -I$(PATH_TEST)
 PATH_OBJECT  = $(PATH_BUILD)/obj
 PATH_LIBRARY = $(PATH_BUILD)/JabLib.a
 
@@ -33,7 +33,7 @@ obj: $(PATH_OBJECT)/JabStdFunctions.o \
 
 bin: $(PATH_BUILD)/JabLibTest
 
-$(PATH_OBJECT)/%.o: $(PATH_SOURCE)/%.cpp $(PATH_INCLUDE)/%.h
+$(PATH_OBJECT)/%.o: $(PATH_SOURCE)/%.cpp
 	$(COMP_CC) $(FLAGS_CC) -c $< $(COMP_DEFINES) -I $(PATH_INCLUDE) -o $@
 
 $(PATH_BUILD)/%: $(PATH_TEST)/%.cpp

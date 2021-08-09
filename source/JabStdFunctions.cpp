@@ -44,15 +44,15 @@ int JabStdFunctions::CharacterCount( char * Buff, char * BuffCmp )
    return result;
 }
 
-int compareints( const void * a, const void * b )
+int intcmp( const void * pKey, const void * pElem )
 {
-  return ( *(int*)a - *(int*)b );
+   return ( *(int*)pKey - *(int*)pElem );
 }
 
 bool JabStdFunctions::Search( size_t value, void * buffer, size_t len )
 {
    int * result;
-   result = (int*) bsearch( &value, buffer, len, sizeof(value), compareints );
+   result = (int*) bsearch( &value, buffer, len, sizeof(value), intcmp );
 
    return ( result != NULL );
 }
