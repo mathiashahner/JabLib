@@ -12,6 +12,7 @@ public: // Functions conversion types
 
 public: // Function with strings
    int CharacterCount( char * buffer, char * BuffCmp );
+   void StrPadding( char * buffer, char * bufferOutput, size_t lenMax, char charPadding );
 
 public:
    bool Search( size_t value, void * buffer, size_t len );
