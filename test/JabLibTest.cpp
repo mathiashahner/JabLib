@@ -6,10 +6,16 @@ int main()
    bool result;
    JabLibTest Test;
 
-   result = Test.TestJabStdFunctions();
-   if ( result )
+   Test.RunTestJabStdFunctions = TRUE;
+   Test.RunTestJabMath         = TRUE;
+
+   if ( Test.RunTestJabStdFunctions )
    {
-      result = Test.TestJabMath();
+      result = Test.TestJabStdFunctions();
+      if (( Test.RunTestJabMath ) && ( result ))
+      {
+         result = Test.TestJabMath();
+      }
    }
 
    system("PAUSE");
@@ -18,14 +24,12 @@ int main()
 
 JabLibTest::JabLibTest()
 {
-   printf("JabLibTest\n");
    count = 0;
    printHeader = TRUE;
 }
 
 JabLibTest::~JabLibTest()
 {
-   printf("~JabLibTest\n");
    printHeader = FALSE;
 }
 
@@ -43,8 +47,17 @@ bool JabLibTest::CheckFunction( char * nameFunction, size_t inputValue, size_t e
    }
    else
    {
-      printf("%04d | Function=[%s] inputValue=[%d] expectedReturn=[%d]\n",
-         count, nameFunction, inputValue, expectedReturn );
+      char nameFunctionTmp[20], inputValueTmp[20], expectedReturnTmp[20];
+
+      memset( nameFunctionTmp,   0, 20 );
+      memset( inputValueTmp,     0, 20 );
+      memset( expectedReturnTmp, 0, 20 );
+
+      JAB.StrPadding( nameFunction,                                  nameFunctionTmp,   10, ' ' );
+      JAB.StrPadding( itoa( inputValue, inputValueTmp, 10 ),         inputValueTmp,     6,  ' ' );
+      JAB.StrPadding( itoa( expectedReturn, expectedReturnTmp, 10 ), expectedReturnTmp, 6,  ' ' );
+
+      printf("| %04d | %s | %s | %s |\n", count, nameFunctionTmp, inputValueTmp, expectedReturnTmp );
 
       count++;
    }   
@@ -56,16 +69,34 @@ bool JabLibTest::TestJabStdFunctions()
 {
    bool result;
 
-   result = CheckFunction((char*)"ToInt", JAB.ToInt((char*)"0"),     0 );
-   CheckFunction((char*)"ToInt", JAB.ToInt((char*)"12345"), 12345 );
-   CheckFunction((char*)"ToInt", JAB.ToInt((char*)"-123"), -123 );
+   result = CheckFunction((char*)"ToInt", JAB.ToInt((char*)"0"), 0 );
+   if ( result )
+   {
+      result = CheckFunction((char*)"ToInt", JAB.ToInt((char*)"12345"), 12345 );
+      if ( result )
+      {
+         CheckFunction((char*)"ToInt", JAB.ToInt((char*)"-123"), -123 );
+      }
+   }
 
-   int vet[] = {1,3,5,7,13};
+   if ( result )
+   {
+      int vet[] = {1,3,5,7,13};
 
-   CheckFunction((char*)"Search", JAB.Search( 1,  vet, 5 ),  TRUE );
-   CheckFunction((char*)"Search", JAB.Search( 2,  vet, 5 ),  FALSE );
-   CheckFunction((char*)"Search", JAB.Search( 3,  vet, 5 ),  TRUE );
-   CheckFunction((char*)"Search", JAB.Search( 13, vet, 5 ), TRUE );
+      result = CheckFunction((char*)"Search", JAB.Search( 1, vet, 5 ), TRUE );
+      if ( result )
+      {
+         result = CheckFunction((char*)"Search", JAB.Search( 2, vet, 5 ), FALSE );
+         if ( result )
+         {
+            result = CheckFunction((char*)"Search", JAB.Search( 3, vet, 5 ), TRUE );
+            if ( result )
+            {
+               result = CheckFunction((char*)"Search", JAB.Search( 13, vet, 5 ), TRUE );
+            }
+         }
+      }
+   }
 
    return result;
 }

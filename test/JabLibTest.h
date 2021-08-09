@@ -10,6 +10,9 @@ public:
    size_t count;
    bool printHeader;
 
+   bool RunTestJabStdFunctions;
+   bool RunTestJabMath;
+
    bool TestJabStdFunctions( void );
    bool TestJabMath( void );
 
