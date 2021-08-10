@@ -18,6 +18,8 @@ int main()
       }
    }
 
+   Test.ComputeResult();
+
    system("PAUSE");
    return 0;
 }
@@ -53,9 +55,9 @@ bool JabLibTest::CheckFunction( char * nameFunction, size_t inputValue, size_t e
       memset( inputValueTmp,     0, 20 );
       memset( expectedReturnTmp, 0, 20 );
 
-      JAB.StrPadding( nameFunction,                                  nameFunctionTmp,   10, ' ' );
-      JAB.StrPadding( itoa( inputValue, inputValueTmp, 10 ),         inputValueTmp,     6,  ' ' );
-      JAB.StrPadding( itoa( expectedReturn, expectedReturnTmp, 10 ), expectedReturnTmp, 6,  ' ' );
+      JAB.StrPadding( nameFunction,                 nameFunctionTmp,   10, ' ' );
+      JAB.StrPadding( JAB.ToChar( inputValue ),     inputValueTmp,     6,  ' ' );
+      JAB.StrPadding( JAB.ToChar( expectedReturn ), expectedReturnTmp, 6,  ' ' );
 
       printf("| %04d | %s | %s | %s |\n", count, nameFunctionTmp, inputValueTmp, expectedReturnTmp );
 
@@ -63,6 +65,14 @@ bool JabLibTest::CheckFunction( char * nameFunction, size_t inputValue, size_t e
    }   
 
    return result;
+}
+
+void JabLibTest::ComputeResult()
+{
+   if ( count > 0 )
+   {
+      printf("Implementar %s\n", __FUNCTION__ );
+   }
 }
 
 bool JabLibTest::TestJabStdFunctions()
@@ -106,16 +116,40 @@ bool JabLibTest::TestJabMath()
    bool result;
    JabMath Math;
 
-   result = CheckFunction((char*)"Pot", Math.Pot( -3 ),     9 );
-   CheckFunction((char*)"Pot", Math.Pot( 5 ),      25 );
-   CheckFunction((char*)"Pot", Math.Pot( 2, 5 ),   32 );
-   CheckFunction((char*)"Pot", Math.Pot( 5, 3 ),   125 );
-   CheckFunction((char*)"Pot", Math.Pot( -3, 3 ), -27 );
+   result = CheckFunction((char*)"Pot", Math.Pot( -3 ), 9 );
+   if ( result )
+   {
+      result = CheckFunction((char*)"Pot", Math.Pot( 5 ), 25 );
+      if ( result )
+      {
+         result = CheckFunction((char*)"Pot", Math.Pot( 2, 5 ), 32 );
+         if ( result )
+         {
+            result = CheckFunction((char*)"Pot", Math.Pot( 5, 3 ), 125 );
+            if ( result )
+            {
+               result = CheckFunction((char*)"Pot", Math.Pot( -3, 3 ), -27 );
+            }
+         }
+      }
+   }
 
-   CheckFunction((char*)"Pot", Math.Factorial( -1 ), 0 );
-   CheckFunction((char*)"Pot", Math.Factorial( 0 ),  1 );
-   CheckFunction((char*)"Pot", Math.Factorial( 5 ),  120 );
-   CheckFunction((char*)"Pot", Math.Factorial( 7 ),  5040 );
+   if ( result )
+   {
+      result = CheckFunction((char*)"Factorial", Math.Factorial( -1 ), 0 );
+      if ( result )
+      {
+         result = CheckFunction((char*)"Factorial", Math.Factorial( 0 ), 1 );
+         if ( result )
+         {
+            result = CheckFunction((char*)"Factorial", Math.Factorial( 5 ), 120 );
+            if ( result )
+            {
+               result = CheckFunction((char*)"Factorial", Math.Factorial( 7 ), 5040 );
+            }
+         }
+      }
+   }
    
    return result;
 }

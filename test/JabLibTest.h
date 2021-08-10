@@ -17,4 +17,5 @@ public:
    bool TestJabMath( void );
 
    bool CheckFunction( char * nameFunction, size_t inputValue, size_t expectedReturn, size_t line = __LINE__ );
+   void ComputeResult( void );
 };
