@@ -8,7 +8,7 @@ public:
 
 public:
    size_t count;
-   bool printHeader;
+   bool NeedPrintHeader;
 
    bool RunTestJabStdFunctions;
    bool RunTestJabMath;
@@ -17,5 +17,8 @@ public:
    bool TestJabMath( void );
 
    bool CheckFunction( char * nameFunction, size_t inputValue, size_t expectedReturn, size_t line = __LINE__ );
+   bool CheckFunction( char * nameFunction, char * inputValue, char * expectedReturn, size_t line = __LINE__ );
+
+   void PrintLine( char * nameFunction, char * inputValue, char * expectedReturn );
    void ComputeResult( void );
 };

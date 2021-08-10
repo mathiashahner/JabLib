@@ -27,51 +27,90 @@ int main()
 JabLibTest::JabLibTest()
 {
    count = 0;
-   printHeader = TRUE;
+   NeedPrintHeader = TRUE;
 }
 
 JabLibTest::~JabLibTest()
 {
-   printHeader = FALSE;
+   NeedPrintHeader = FALSE;
+}
+
+bool JabLibTest::CheckFunction( char * nameFunction, char * inputValue, char * expectedReturn, size_t line )
+{
+   bool result = FALSE;
+
+   if (( nameFunction == NULL ) || ( inputValue == NULL ) || ( expectedReturn == NULL ))
+   {
+      printf("-> Param is NULL.\n");
+   }
+   else
+   {
+      result = ( strcmp( inputValue, expectedReturn ) == 0 );
+      if ( !result )
+      {
+         printf("\n\nERRO | Function=[%s] Line=[%d] inputValue=[%s] expectedReturn=[%s]\n",
+            nameFunction, line, inputValue, expectedReturn );
+
+         system("PAUSE");
+      }
+      else
+      {
+         PrintLine( nameFunction, inputValue, expectedReturn );
+      }   
+   }
+
+   return result;
 }
 
 bool JabLibTest::CheckFunction( char * nameFunction, size_t inputValue, size_t expectedReturn, size_t line )
 {
    bool result = FALSE;
 
-   result = ( inputValue == expectedReturn );
-   if ( !result )
+   if ( nameFunction == NULL )
    {
-      printf("\n\nERRO | Function=[%s] Line=[%d] inputValue=[%d] expectedReturn=[%d]\n",
-         nameFunction, line, inputValue, expectedReturn );
-
-      system("PAUSE");
+      printf("-> nameFunction is NULL.\n");
    }
    else
    {
-      char nameFunctionTmp[20], inputValueTmp[20], expectedReturnTmp[20];
+      result = ( inputValue == expectedReturn );
+      if ( !result )
+      {
+         printf("\n\nERRO | Function=[%s] Line=[%d] inputValue=[%d] expectedReturn=[%d]\n",
+            nameFunction, line, inputValue, expectedReturn );
 
-      memset( nameFunctionTmp,   0, 20 );
-      memset( inputValueTmp,     0, 20 );
-      memset( expectedReturnTmp, 0, 20 );
-
-      JAB.StrPadding( nameFunction,                 nameFunctionTmp,   10, ' ' );
-      JAB.StrPadding( JAB.ToChar( inputValue ),     inputValueTmp,     6,  ' ' );
-      JAB.StrPadding( JAB.ToChar( expectedReturn ), expectedReturnTmp, 6,  ' ' );
-
-      printf("| %04d | %s | %s | %s |\n", count, nameFunctionTmp, inputValueTmp, expectedReturnTmp );
-
-      count++;
-   }   
+         system("PAUSE");
+      }
+      else
+      {
+         PrintLine( nameFunction, JAB.ToChar(inputValue), JAB.ToChar(expectedReturn));
+      }   
+   }
 
    return result;
+}
+
+void JabLibTest::PrintLine( char * nameFunction, char * inputValue, char * expectedReturn )
+{
+   char nameFunctionTmp[20], inputValueTmp[20], expectedReturnTmp[20];
+
+   memset( nameFunctionTmp,   0, 20 );
+   memset( inputValueTmp,     0, 20 );
+   memset( expectedReturnTmp, 0, 20 );
+
+   JAB.StrPadding( nameFunction,   nameFunctionTmp,   10, ' ' );
+   JAB.StrPadding( inputValue,     inputValueTmp,     6,  ' ' );
+   JAB.StrPadding( expectedReturn, expectedReturnTmp, 6,  ' ' );
+
+   printf("| %04d | %s | %s | %s |\n", count, nameFunctionTmp, inputValueTmp, expectedReturnTmp );
+
+   count++;
 }
 
 void JabLibTest::ComputeResult()
 {
    if ( count > 0 )
    {
-      printf("Implementar %s\n", __FUNCTION__ );
+      printf("\nImplementar %s\n", __FUNCTION__ );
    }
 }
 
@@ -91,18 +130,40 @@ bool JabLibTest::TestJabStdFunctions()
 
    if ( result )
    {
-      int vet[] = {1,3,5,7,13};
+      int ArrayTest[] = {1,3,5,7,13};
+      int LenArray = sizeof(ArrayTest) / sizeof(ArrayTest[0]);
 
-      result = CheckFunction((char*)"Search", JAB.Search( 1, vet, 5 ), TRUE );
+      result = CheckFunction((char*)"Contains", JAB.Contains( 1, ArrayTest, LenArray ), TRUE );
       if ( result )
       {
-         result = CheckFunction((char*)"Search", JAB.Search( 2, vet, 5 ), FALSE );
+         result = CheckFunction((char*)"Contains", JAB.Contains( 2, ArrayTest, LenArray ), FALSE );
          if ( result )
          {
-            result = CheckFunction((char*)"Search", JAB.Search( 3, vet, 5 ), TRUE );
+            result = CheckFunction((char*)"Contains", JAB.Contains( 3, ArrayTest, LenArray ), TRUE );
             if ( result )
             {
-               result = CheckFunction((char*)"Search", JAB.Search( 13, vet, 5 ), TRUE );
+               result = CheckFunction((char*)"Contains", JAB.Contains( 13, ArrayTest, LenArray ), TRUE );
+            }
+         }
+      }
+   }
+
+   if ( result )
+   {
+      result = CheckFunction((char*)"ToChar", JAB.ToChar( 0 ), (char*)"0" );
+      if ( result )
+      {
+         result = CheckFunction((char*)"ToChar", JAB.ToChar( 123 ), (char*)"123" );
+         if ( result )
+         {
+            result = CheckFunction((char*)"ToChar", JAB.ToChar( -123 ), (char*)"-123" );
+            if ( result )
+            {
+               result = CheckFunction((char*)"ToChar", JAB.ToChar( 13, 2 ), (char*)"1101" );
+               if ( result )
+               {
+                  result = CheckFunction((char*)"ToChar", JAB.ToChar( 1750, 16 ), (char*)"6d6" );
+               }
             }
          }
       }

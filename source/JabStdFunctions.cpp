@@ -68,7 +68,7 @@ int intcmp( const void * pKey, const void * pElem )
    return ( *(int*)pKey - *(int*)pElem );
 }
 
-bool JabStdFunctions::Search( size_t value, void * buffer, size_t len )
+bool JabStdFunctions::Contains( size_t value, void * buffer, size_t len )
 {
    int * result;
    result = (int*) bsearch( &value, buffer, len, sizeof(value), intcmp );
@@ -76,17 +76,17 @@ bool JabStdFunctions::Search( size_t value, void * buffer, size_t len )
    return ( result != NULL );
 }
 
-void JabStdFunctions::StrPadding( char * buffer, char * bufferOutput, size_t lenMax, char charPadding )
+void JabStdFunctions::StrPadding( char * bufferInput, char * bufferOutput, size_t lenMax, char charPadding )
 {
-   if ( buffer == NULL )
+   if (( bufferInput == NULL ) || ( bufferOutput == NULL ))
    {
       printf("-> Buffer is NULL.\n");
    }
    else
    {
-      strncpy( bufferOutput, buffer, lenMax );
+      strncpy( bufferOutput, bufferInput, lenMax );
 
-      for ( size_t count=strlen(buffer); count<lenMax; count++ )
+      for ( size_t count=strlen(bufferInput); count<lenMax; count++ )
       {
          bufferOutput[count] = charPadding;
       }
