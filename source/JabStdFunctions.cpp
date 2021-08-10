@@ -25,6 +25,25 @@ int JabStdFunctions::ToInt( char * buffer, size_t len )
    return result;
 }
 
+char * JabStdFunctions::ToChar( size_t num )
+{
+   return ( ToChar( num, 10 ));
+}
+
+char * JabStdFunctions::ToChar( size_t num, size_t base )
+{
+   char * result;
+
+   result = (char*)malloc(64);
+   if ( result != NULL )
+   {
+      memset( result, 0, 64 );
+      itoa( num, result, base );
+   } 
+
+   return result;
+}
+
 int JabStdFunctions::CharacterCount( char * Buff, char * BuffCmp )
 {
    int count, countAux, result = 0;
