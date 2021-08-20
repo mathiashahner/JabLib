@@ -11,7 +11,6 @@ public: // Functions conversion types
    int ToInt( char * buffer, size_t len );
 
    char * ToChar( size_t num );
-   char * ToChar( size_t num, size_t base );
 
 public: // Function with strings
    int CharacterCount( char * buffer, char * BuffCmp );

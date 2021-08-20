@@ -157,14 +157,6 @@ bool JabLibTest::TestJabStdFunctions()
          if ( result )
          {
             result = CheckFunction((char*)"ToChar", JAB.ToChar( -123 ), (char*)"-123" );
-            if ( result )
-            {
-               result = CheckFunction((char*)"ToChar", JAB.ToChar( 13, 2 ), (char*)"1101" );
-               if ( result )
-               {
-                  result = CheckFunction((char*)"ToChar", JAB.ToChar( 1750, 16 ), (char*)"6d6" );
-               }
-            }
          }
       }
    }

@@ -27,18 +27,14 @@ int JabStdFunctions::ToInt( char * buffer, size_t len )
 
 char * JabStdFunctions::ToChar( size_t num )
 {
-   return ( ToChar( num, 10 ));
-}
-
-char * JabStdFunctions::ToChar( size_t num, size_t base )
-{
    char * result;
+   size_t lenBuffer = 64;
 
-   result = (char*)malloc(64);
+   result = (char*)malloc(lenBuffer);
    if ( result != NULL )
    {
-      memset( result, 0, 64 );
-      itoa( num, result, base );
+      memset( result, 0, lenBuffer );
+      snprintf( result, lenBuffer, "%d", num );
    } 
 
    return result;
