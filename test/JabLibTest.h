@@ -16,8 +16,8 @@ public:
    bool TestJabStdFunctions( void );
    bool TestJabMath( void );
 
-   bool CheckFunction( char * nameFunction, size_t inputValue, size_t expectedReturn, size_t line = __LINE__ );
-   bool CheckFunction( char * nameFunction, char * inputValue, char * expectedReturn, size_t line = __LINE__ );
+   bool CheckFunction( char * nameFunction, size_t inputValue, size_t expectedReturn, size_t line );
+   bool CheckFunction( char * nameFunction, char * inputValue, char * expectedReturn, size_t line );
 
    void PrintLine( char * nameFunction, char * inputValue, char * expectedReturn );
    void ComputeResult( void );

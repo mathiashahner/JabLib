@@ -67,7 +67,7 @@ int intcmp( const void * pKey, const void * pElem )
 bool JabStdFunctions::Contains( size_t value, void * buffer, size_t len )
 {
    int * result;
-   result = (int*) bsearch( &value, buffer, len, sizeof(value), intcmp );
+   result = (int*)bsearch( &value, buffer, len, sizeof(value), intcmp );
 
    return ( result != NULL );
 }

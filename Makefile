@@ -7,8 +7,8 @@ PATH_LIBRARY = $(PATH_BUILD)/JabLib.a
 COMP_C    = gcc
 COMP_CC   = g++
 
-FLAGS_C   = -O3 -Wall
-FLAGS_CC  = -O3 -Wall
+FLAGS_C   = -O3
+FLAGS_CC  = -O3 -Wno-format -Wno-stringop-overflow
 FLAGS_LIB = ar -rcs
 
 COMP_DEFINES    = 

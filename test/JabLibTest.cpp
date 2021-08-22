@@ -1,6 +1,8 @@
 #include <JabLibTest.h>
 #include <JabStdFunctions.h>
 
+#define CHECKFUNCTION( nameFunction, inputValue, expectedReturn ) CheckFunction( nameFunction, inputValue, expectedReturn, __LINE__ )
+
 int main()
 {
    bool result;
@@ -20,7 +22,10 @@ int main()
 
    Test.ComputeResult();
 
-   system("PAUSE");
+   #ifdef _BUILD_WINDOWS
+      system("PAUSE");
+   #endif
+
    return 0;
 }
 
@@ -51,7 +56,9 @@ bool JabLibTest::CheckFunction( char * nameFunction, char * inputValue, char * e
          printf("\n\nERRO | Function=[%s] Line=[%d] inputValue=[%s] expectedReturn=[%s]\n",
             nameFunction, line, inputValue, expectedReturn );
 
-         system("PAUSE");
+         #ifdef _BUILD_WINDOWS
+            system("PAUSE");
+         #endif
       }
       else
       {
@@ -78,7 +85,9 @@ bool JabLibTest::CheckFunction( char * nameFunction, size_t inputValue, size_t e
          printf("\n\nERRO | Function=[%s] Line=[%d] inputValue=[%d] expectedReturn=[%d]\n",
             nameFunction, line, inputValue, expectedReturn );
 
-         system("PAUSE");
+         #ifdef _BUILD_WINDOWS
+            system("PAUSE");
+         #endif
       }
       else
       {
@@ -118,13 +127,13 @@ bool JabLibTest::TestJabStdFunctions()
 {
    bool result;
 
-   result = CheckFunction((char*)"ToInt", JAB.ToInt((char*)"0"), 0 );
+   result = CHECKFUNCTION((char*)"ToInt", JAB.ToInt((char*)"0"), 0 );
    if ( result )
    {
-      result = CheckFunction((char*)"ToInt", JAB.ToInt((char*)"12345"), 12345 );
+      result = CHECKFUNCTION((char*)"ToInt", JAB.ToInt((char*)"12345"), 12345 );
       if ( result )
       {
-         CheckFunction((char*)"ToInt", JAB.ToInt((char*)"-123"), -123 );
+         CHECKFUNCTION((char*)"ToInt", JAB.ToInt((char*)"-123"), -123 );
       }
    }
 
@@ -133,16 +142,16 @@ bool JabLibTest::TestJabStdFunctions()
       int ArrayTest[] = {1,3,5,7,13};
       int LenArray = sizeof(ArrayTest) / sizeof(ArrayTest[0]);
 
-      result = CheckFunction((char*)"Contains", JAB.Contains( 1, ArrayTest, LenArray ), TRUE );
+      result = CHECKFUNCTION((char*)"Contains", JAB.Contains( 1, ArrayTest, LenArray ), TRUE );
       if ( result )
       {
-         result = CheckFunction((char*)"Contains", JAB.Contains( 2, ArrayTest, LenArray ), FALSE );
+         result = CHECKFUNCTION((char*)"Contains", JAB.Contains( 2, ArrayTest, LenArray ), FALSE );
          if ( result )
          {
-            result = CheckFunction((char*)"Contains", JAB.Contains( 3, ArrayTest, LenArray ), TRUE );
+            result = CHECKFUNCTION((char*)"Contains", JAB.Contains( 3, ArrayTest, LenArray ), TRUE );
             if ( result )
             {
-               result = CheckFunction((char*)"Contains", JAB.Contains( 13, ArrayTest, LenArray ), TRUE );
+               result = CHECKFUNCTION((char*)"Contains", JAB.Contains( 13, ArrayTest, LenArray ), TRUE );
             }
          }
       }
@@ -150,13 +159,13 @@ bool JabLibTest::TestJabStdFunctions()
 
    if ( result )
    {
-      result = CheckFunction((char*)"ToChar", JAB.ToChar( 0 ), (char*)"0" );
+      result = CHECKFUNCTION((char*)"ToChar", JAB.ToChar( 0 ), (char*)"0" );
       if ( result )
       {
-         result = CheckFunction((char*)"ToChar", JAB.ToChar( 123 ), (char*)"123" );
+         result = CHECKFUNCTION((char*)"ToChar", JAB.ToChar( 123 ), (char*)"123" );
          if ( result )
          {
-            result = CheckFunction((char*)"ToChar", JAB.ToChar( -123 ), (char*)"-123" );
+            result = CHECKFUNCTION((char*)"ToChar", JAB.ToChar( -123 ), (char*)"-123" );
          }
       }
    }
@@ -169,19 +178,19 @@ bool JabLibTest::TestJabMath()
    bool result;
    JabMath Math;
 
-   result = CheckFunction((char*)"Pot", Math.Pot( -3 ), 9 );
+   result = CHECKFUNCTION((char*)"Pot", Math.Pot( -3 ), 9 );
    if ( result )
    {
-      result = CheckFunction((char*)"Pot", Math.Pot( 5 ), 25 );
+      result = CHECKFUNCTION((char*)"Pot", Math.Pot( 5 ), 25 );
       if ( result )
       {
-         result = CheckFunction((char*)"Pot", Math.Pot( 2, 5 ), 32 );
+         result = CHECKFUNCTION((char*)"Pot", Math.Pot( 2, 5 ), 32 );
          if ( result )
          {
-            result = CheckFunction((char*)"Pot", Math.Pot( 5, 3 ), 125 );
+            result = CHECKFUNCTION((char*)"Pot", Math.Pot( 5, 3 ), 125 );
             if ( result )
             {
-               result = CheckFunction((char*)"Pot", Math.Pot( -3, 3 ), -27 );
+               result = CHECKFUNCTION((char*)"Pot", Math.Pot( -3, 3 ), -27 );
             }
          }
       }
@@ -189,16 +198,16 @@ bool JabLibTest::TestJabMath()
 
    if ( result )
    {
-      result = CheckFunction((char*)"Factorial", Math.Factorial( -1 ), 0 );
+      result = CHECKFUNCTION((char*)"Factorial", Math.Factorial( -1 ), 0 );
       if ( result )
       {
-         result = CheckFunction((char*)"Factorial", Math.Factorial( 0 ), 1 );
+         result = CHECKFUNCTION((char*)"Factorial", Math.Factorial( 0 ), 1 );
          if ( result )
          {
-            result = CheckFunction((char*)"Factorial", Math.Factorial( 5 ), 120 );
+            result = CHECKFUNCTION((char*)"Factorial", Math.Factorial( 5 ), 120 );
             if ( result )
             {
-               result = CheckFunction((char*)"Factorial", Math.Factorial( 7 ), 5040 );
+               result = CHECKFUNCTION((char*)"Factorial", Math.Factorial( 7 ), 5040 );
             }
          }
       }
