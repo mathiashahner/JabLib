@@ -6,9 +6,9 @@
 class JabMath
 {
 public:
-   size_t Pot( size_t num );
-   size_t Pot( size_t num, size_t exp );
-   size_t Factorial( size_t num );
+   size_t Pot(size_t num);
+   size_t Pot(size_t num, size_t exp);
+   size_t Factorial(size_t num);
 
    // float
    // raiz

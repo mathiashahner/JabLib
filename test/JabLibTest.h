@@ -13,12 +13,12 @@ public:
    bool RunTestJabStdFunctions;
    bool RunTestJabMath;
 
-   bool TestJabStdFunctions( void );
-   bool TestJabMath( void );
+   bool TestJabStdFunctions(void);
+   bool TestJabMath(void);
 
-   bool CheckFunction( char * nameFunction, size_t inputValue, size_t expectedReturn, size_t line );
-   bool CheckFunction( char * nameFunction, char * inputValue, char * expectedReturn, size_t line );
+   bool CheckFunction(char *nameFunction, size_t inputValue, size_t expectedReturn, size_t line);
+   bool CheckFunction(char *nameFunction, char *inputValue, char *expectedReturn, size_t line);
 
-   void PrintLine( char * nameFunction, char * inputValue, char * expectedReturn );
-   void ComputeResult( void );
+   void PrintLine(char *nameFunction, char *inputValue, char *expectedReturn);
+   void ComputeResult(void);
 };

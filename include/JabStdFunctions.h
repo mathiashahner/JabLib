@@ -7,17 +7,17 @@
 class JabStdFunctions
 {
 public: // Functions conversion types
-   int ToInt( char * buffer );
-   int ToInt( char * buffer, size_t len );
+   int ToInt(char *buffer);
+   int ToInt(char *buffer, size_t len);
 
-   char * ToChar( size_t num );
+   char *ToChar(size_t num);
 
 public: // Function with strings
-   int CharacterCount( char * buffer, char * BuffCmp );
-   void StrPadding( char * bufferInput, char * bufferOutput, size_t lenMax, char charPadding );
+   int CharacterCount(char *buffer, char *BuffCmp);
+   void StrPadding(char *bufferInput, char *bufferOutput, size_t lenMax, char charPadding);
 
 public:
-   bool Contains( size_t value, void * buffer, size_t len );
+   bool Contains(size_t value, void *buffer, size_t len);
 };
 
 extern JabStdFunctions JAB;

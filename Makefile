@@ -1,20 +1,18 @@
-PATH_BUILD   = ./build
-PATH_SOURCE  = ./source
+PATH_SOURCE  = ./src
 PATH_TEST    = ./test
+PATH_BUILD   = ./build
 PATH_OBJECT  = $(PATH_BUILD)/obj
 PATH_LIBRARY = $(PATH_BUILD)/JabLib.a
 
-COMP_C    = gcc
-COMP_CC   = g++
-
-FLAGS_C   = -O3
-FLAGS_CC  = -O3 -Wno-format -Wno-stringop-overflow
+COMP_CPP  = g++
+FLAGS_CPP = -O3 -Wno-format -Wno-stringop-overflow
 FLAGS_LIB = ar -rcs
 
 COMP_DEFINES    = 
 MAKE_BUILD_PATH = mkdir $(PATH_BUILD) $(PATH_OBJECT)
 
 PATH_INCLUDE  = -I./include
+PATH_INCLUDE  = -I./lib/SDL2/include
 PATH_INCLUDE += -I$(PATH_TEST)
 
 all: path obj bin
@@ -36,7 +34,7 @@ obj: $(PATH_OBJECT)/JabStdFunctions.o \
 bin: $(PATH_BUILD)/JabLibTest
 
 $(PATH_OBJECT)/%.o: $(PATH_SOURCE)/%.cpp
-	$(COMP_CC) $(FLAGS_CC) -c $< $(COMP_DEFINES) $(PATH_INCLUDE) -o $@
+	$(COMP_CPP) $(FLAGS_CPP) -c $< $(COMP_DEFINES) $(PATH_INCLUDE) -o $@
 
 $(PATH_BUILD)/%: $(PATH_TEST)/%.cpp
-	$(COMP_CC) $(FLAGS_CC) $< $(COMP_DEFINES) $(PATH_LIBRARY) $(PATH_INCLUDE) -o $@
+	$(COMP_CPP) $(FLAGS_CPP) $< $(COMP_DEFINES) $(PATH_LIBRARY) $(PATH_INCLUDE) -o $@
