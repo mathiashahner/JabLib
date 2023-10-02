@@ -1,6 +1,6 @@
-# JabLib
+# Maze builder
 
-Functions that can be useful!
+A random maze generator
 
 ### Getting started:
 
