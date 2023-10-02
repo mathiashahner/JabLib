@@ -25,7 +25,8 @@ run:
 path:
 	if [ ! -d $(PATH_BUILD) ]; then $(MAKE_BUILD_PATH); fi
 
-obj: $(PATH_OBJECT)/main.o
+obj: $(PATH_OBJECT)/main.o \
+	$(PATH_OBJECT)/game.o
 	$(FLAGS_LIB) $(PATH_LIBRARY) $(PATH_OBJECT)/*.o
 
 bin: $(PATH_BUILD)/MazeBuilder
