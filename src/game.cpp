@@ -13,21 +13,21 @@ void Game::init()
   }
   else
   {
-    window = SDL_CreateWindow("Maze Builder", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 600, SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow("Maze Builder", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 600, 0);
     if (window == NULL)
     {
       fprintf(stderr, "Error on create window: %s\n", SDL_GetError());
     }
     else
     {
-      renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+      renderer = SDL_CreateRenderer(window, -1, 0);
       if (renderer == NULL)
       {
         fprintf(stderr, "Error on create renderer: %s\n", SDL_GetError());
       }
       else
       {
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        maze = new Maze(renderer, 20, 30);
         isRunning = true;
       }
     }
@@ -36,12 +36,12 @@ void Game::init()
 
 void Game::render()
 {
+  SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
   SDL_RenderClear(renderer);
 
-  // something to render
+  maze->render();
 
   SDL_RenderPresent(renderer);
-  SDL_Delay(16);
 }
 
 void Game::update()
@@ -73,4 +73,14 @@ void Game::handleEvents()
 bool Game::running()
 {
   return isRunning;
+}
+
+void Game::delay(Uint32 frameStart)
+{
+  int frameTime = SDL_GetTicks() - frameStart;
+
+  if (frameDelay > frameTime)
+  {
+    SDL_Delay(frameDelay - frameTime);
+  }
 }

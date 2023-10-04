@@ -7,7 +7,7 @@ PATH_INCLUDE = -I./include
 
 COMP_CPP  = g++
 DEFINES   = 
-LIBRARIES = -mwindows -lmingw32 -lSDL2main -lSDL2
+LIBRARIES = -lmingw32 -lSDL2main -lSDL2 -lSDL2_ttf #-mwindows
 FLAGS_CPP = -O3 -Wno-format -Wno-stringop-overflow
 FLAGS_LIB = ar -rcs
 
@@ -26,7 +26,10 @@ path:
 	if [ ! -d $(PATH_BUILD) ]; then $(MAKE_BUILD_PATH); fi
 
 obj: $(PATH_OBJECT)/main.o \
-	$(PATH_OBJECT)/game.o
+	$(PATH_OBJECT)/game.o \
+	$(PATH_OBJECT)/maze.o \
+	$(PATH_OBJECT)/rect.o \
+	$(PATH_OBJECT)/line.o
 	$(FLAGS_LIB) $(PATH_LIBRARY) $(PATH_OBJECT)/*.o
 
 bin: $(PATH_BUILD)/MazeBuilder
