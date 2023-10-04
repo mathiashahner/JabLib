@@ -13,7 +13,7 @@ void Game::init()
   }
   else
   {
-    window = SDL_CreateWindow("Maze Builder", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 600, 0);
+    window = SDL_CreateWindow("Maze Builder", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1080, 720, 0);
     if (window == NULL)
     {
       fprintf(stderr, "Error on create window: %s\n", SDL_GetError());
@@ -27,7 +27,7 @@ void Game::init()
       }
       else
       {
-        maze = new Maze(renderer, 20, 30);
+        maze = new Maze(renderer, 50, 80);
         isRunning = true;
       }
     }

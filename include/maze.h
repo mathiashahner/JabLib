@@ -13,10 +13,15 @@ public:
   void render();
 
 private:
+  const int rectWidth = 2;
+  const int rectHeight = 2;
+  const int rectDistance = 12;
+  const int rectColor = 0xFF0000FF;
+
   int rows;
   int columns;
 
-  SDL_Rect **rects;
+  Rect **rects;
   SDL_Renderer *renderer;
 
   void init();
