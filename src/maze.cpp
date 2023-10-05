@@ -6,38 +6,57 @@ Maze::Maze(SDL_Renderer *renderer, int rows, int columns)
   this->columns = columns;
   this->renderer = renderer;
 
-  init();
+  srand(time(NULL));
+
+  initPoints();
+  initLines();
 }
 
 Maze::~Maze()
 {
   for (int row = 0; row < rows; row++)
   {
-    delete[] rects[row];
+    delete[] mazePoints[row];
   }
 
-  delete[] rects;
+  delete[] mazePoints;
 }
 
-void Maze::init()
+void Maze::initPoints()
 {
-  int row, column;
+  mazePoints = new MazePoint *[rows];
 
-  rects = new Rect *[rows];
-
-  for (row = 0; row < rows; row++)
+  for (int row = 0; row < rows; row++)
   {
-    rects[row] = new Rect[columns];
+    mazePoints[row] = new MazePoint[columns];
   }
 
-  for (row = 0; row < rows; row++)
+  for (int row = 0; row < rows; row++)
   {
-    for (column = 0; column < columns; column++)
+    for (int column = 0; column < columns; column++)
     {
-      Rect *rect = new Rect(renderer, (column * rectDistance) + rectWidth, (row * rectDistance) + rectHeight,
-                            rectWidth, rectHeight, rectColor);
+      mazePoints[row][column].rect = new Rect(renderer, (column * rectDistance) + rectWidth,
+                                              (row * rectDistance) + rectHeight,
+                                              rectWidth, rectHeight, rectColor);
+    }
+  }
+}
 
-      rects[row][column] = *rect;
+void Maze::initLines()
+{
+  for (int row = 0; row < rows; row++)
+  {
+    for (int column = 0; column < columns; column++)
+    {
+      int randomRow = getRandomNumber(rows - 1);
+      int randomColumn = getRandomNumber(columns - 1);
+
+      mazePoints[row][column].line = new Line(renderer,
+                                              mazePoints[row][column].rect->x,
+                                              mazePoints[row][column].rect->y,
+                                              mazePoints[randomRow][randomColumn].rect->x,
+                                              mazePoints[randomRow][randomColumn].rect->y,
+                                              lineColor);
     }
   }
 }
@@ -48,7 +67,13 @@ void Maze::render()
   {
     for (int column = 0; column < columns; column++)
     {
-      rects[row][column].render();
+      mazePoints[row][column].rect->render();
+      mazePoints[row][column].line->render();
     }
   }
+}
+
+int Maze::getRandomNumber(int max)
+{
+  return rand() % max;
 }

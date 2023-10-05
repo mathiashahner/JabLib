@@ -27,7 +27,7 @@ void Game::init()
       }
       else
       {
-        maze = new Maze(renderer, 50, 80);
+        maze = new Maze(renderer, 70, 100);
         isRunning = true;
       }
     }

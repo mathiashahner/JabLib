@@ -9,6 +9,8 @@ public:
   Rect();
   Rect(SDL_Renderer *renderer, int x, int y, int w, int h, Uint32 color);
 
+  int x, y;
+
   void render();
 
 private:
