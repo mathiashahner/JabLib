@@ -14,6 +14,12 @@ typedef struct MazePoint
   Rect *rect;
 } MazePoint;
 
+typedef struct Point
+{
+  int x;
+  int y;
+} Point;
+
 class Maze
 {
 public:
@@ -32,12 +38,18 @@ private:
 
   int rows;
   int columns;
+  bool hasConflicts;
 
   MazePoint **mazePoints;
   SDL_Renderer *renderer;
 
   void initPoints();
   void initLines();
+
+  bool verifyConflicts(Line *line);
+  bool onSegment(Point p, Point q, Point r);
+  bool doIntersect(Point p1, Point q1, Point p2, Point q2);
+  int orientation(Point p, Point q, Point r);
   int getRandomNumber(int max);
 };
 
