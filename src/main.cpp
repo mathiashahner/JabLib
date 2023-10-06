@@ -15,6 +15,7 @@ int main(int argc, char *argv[])
     game->update();
     game->render();
     game->delay(frameStart);
+    // printf("FPS: %d\n", 1000 / (SDL_GetTicks() - frameStart));
   }
 
   game->clean();

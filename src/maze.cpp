@@ -77,20 +77,39 @@ void Maze::update()
 
         if (verifyConflicts(mazePoint.line))
         {
-          int newRow = getRandomNumber(rows - 1);
-          int newColumn = getRandomNumber(columns - 1);
+          int newRow = row;
+          int newColumn = column;
 
-          // if (row == 0)
-          // {
-          //   newRow = row + 1;
-          //   newColumn = column;
-          // }
+          printf("rows: %d, columns: %d, row: %d, column: %d\n", rows, columns, row, column);
 
-          // if (row == rows - 1)
-          // {
-          //   newRow = row - 1;
-          //   newColumn = column;
-          // }
+          if (row == 0)
+            newRow = row + 1;
+          else if (row == rows - 1)
+            newRow = row - 1;
+          else if (column == 0)
+            newColumn = column + 1;
+          else if (column == columns - 1)
+            newColumn = column - 1;
+          else
+          {
+            int random = getRandomNumber(4);
+
+            switch (random)
+            {
+            case 0:
+              newRow = row + 1;
+              break;
+            case 1:
+              newRow = row - 1;
+              break;
+            case 2:
+              newColumn = column + 1;
+              break;
+            case 3:
+              newColumn = column - 1;
+              break;
+            }
+          }
 
           mazePoint.line->update(mazePoint.rect->x,
                                  mazePoint.rect->y,
