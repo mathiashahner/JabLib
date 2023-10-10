@@ -55,12 +55,11 @@ void Maze::initLines()
       int randomRow = getRandomNumber(rows - 1);
       int randomColumn = getRandomNumber(columns - 1);
 
-      mazePoints[row][column].line = new Line(renderer,
-                                              mazePoints[row][column].rect->x,
-                                              mazePoints[row][column].rect->y,
-                                              mazePoints[randomRow][randomColumn].rect->x,
-                                              mazePoints[randomRow][randomColumn].rect->y,
-                                              lineColor);
+      MazePoint origin = mazePoints[row][column];
+      MazePoint destiny = mazePoints[randomRow][randomColumn];
+
+      mazePoints[row][column].line = new Line(renderer, origin.rect->x, origin.rect->y,
+                                              destiny.rect->x, destiny.rect->y, lineColor);
     }
   }
 }
@@ -73,14 +72,12 @@ void Maze::update()
     {
       for (int column = 0; column < columns; column++)
       {
-        MazePoint mazePoint = mazePoints[row][column];
+        MazePoint origin = mazePoints[row][column];
 
-        if (verifyConflicts(mazePoint.line))
+        if (verifyConflicts(origin.line))
         {
           int newRow = row;
           int newColumn = column;
-
-          printf("rows: %d, columns: %d, row: %d, column: %d\n", rows, columns, row, column);
 
           if (row == 0)
             newRow = row + 1;
@@ -111,12 +108,12 @@ void Maze::update()
             }
           }
 
-          mazePoint.line->update(mazePoint.rect->x,
-                                 mazePoint.rect->y,
-                                 mazePoints[newRow][newColumn].rect->x,
-                                 mazePoints[newRow][newColumn].rect->y);
+          MazePoint destiny = mazePoints[newRow][newColumn];
 
-          mazePoint.line->render();
+          origin.line->update(origin.rect->x, origin.rect->y,
+                              destiny.rect->x, destiny.rect->y);
+
+          origin.line->render();
         }
       }
     }
@@ -131,6 +128,9 @@ bool Maze::verifyConflicts(Line *line)
     {
       Line *currentLine = mazePoints[row][column].line;
 
+      if (line == currentLine)
+        continue;
+
       Point A = {line->x1, line->y1};
       Point B = {line->x2, line->y2};
       Point C = {currentLine->x1, currentLine->y1};
@@ -139,6 +139,8 @@ bool Maze::verifyConflicts(Line *line)
       return doIntersect(A, B, C, D);
     }
   }
+
+  return false;
 }
 
 bool Maze::doIntersect(Point p1, Point q1, Point p2, Point q2)
@@ -192,8 +194,10 @@ void Maze::render()
   {
     for (int column = 0; column < columns; column++)
     {
-      mazePoints[row][column].rect->render();
-      mazePoints[row][column].line->render();
+      MazePoint point = mazePoints[row][column];
+
+      point.rect->render();
+      point.line->render();
     }
   }
 }

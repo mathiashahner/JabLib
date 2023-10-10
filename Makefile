@@ -7,7 +7,7 @@ PATH_INCLUDE = -I./include
 
 COMP_CPP  = g++
 DEFINES   = 
-LIBRARIES = -lmingw32 -lSDL2main -lSDL2 -lSDL2_ttf #-mwindows
+LIBRARIES = -lSDL2main -lSDL2
 FLAGS_CPP = -O3 -Wno-format -Wno-stringop-overflow
 FLAGS_LIB = ar -rcs
 
