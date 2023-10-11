@@ -10,6 +10,7 @@
 
 typedef struct MazePoint
 {
+  int numLines;
   Line *line;
   Rect *rect;
 } MazePoint;

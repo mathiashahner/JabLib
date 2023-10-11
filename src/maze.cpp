@@ -39,6 +39,7 @@ void Maze::initPoints()
   {
     for (int column = 0; column < columns; column++)
     {
+      mazePoints[row][column].numLines = 0;
       mazePoints[row][column].rect = new Rect(renderer, (column * rectDistance) + rectWidth,
                                               (row * rectDistance) + rectHeight,
                                               rectWidth, rectHeight, rectColor);
@@ -58,8 +59,15 @@ void Maze::initLines()
       MazePoint origin = mazePoints[row][column];
       MazePoint destiny = mazePoints[randomRow][randomColumn];
 
-      mazePoints[row][column].line = new Line(renderer, origin.rect->x, origin.rect->y,
-                                              destiny.rect->x, destiny.rect->y, lineColor);
+      mazePoints[row][column].line = new Line(renderer,
+                                              origin.rect->x - origin.numLines,
+                                              origin.rect->y - origin.numLines,
+                                              destiny.rect->x - destiny.numLines,
+                                              destiny.rect->y - destiny.numLines,
+                                              lineColor);
+
+      origin.numLines++;
+      destiny.numLines++;
     }
   }
 }
@@ -76,6 +84,8 @@ void Maze::update()
 
         if (verifyConflicts(origin.line))
         {
+          printf("row: %d, column: %d\n", row, column);
+
           int newRow = row;
           int newColumn = column;
 
@@ -110,8 +120,10 @@ void Maze::update()
 
           MazePoint destiny = mazePoints[newRow][newColumn];
 
-          origin.line->update(origin.rect->x, origin.rect->y,
-                              destiny.rect->x, destiny.rect->y);
+          origin.line->update(origin.rect->x - origin.numLines,
+                              origin.rect->y - origin.numLines,
+                              destiny.rect->x - destiny.numLines,
+                              destiny.rect->y - destiny.numLines);
 
           origin.line->render();
         }
