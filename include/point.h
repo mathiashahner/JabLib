@@ -3,14 +3,14 @@
 
 #include <SDL2/SDL.h>
 
-class Rect
+class Point
 {
 public:
-  Rect();
-  Rect(SDL_Renderer *renderer, int x, int y, int w, int h, Uint32 color);
+  Point();
+  Point(int x, int y);
+  Point(SDL_Renderer *renderer, int x, int y, Uint32 color);
 
   int x, y;
-  int w, h;
 
   void render();
 

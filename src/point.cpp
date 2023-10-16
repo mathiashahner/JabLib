@@ -1,15 +1,19 @@
-#include <rect.h>
+#include <point.h>
 
-Rect::Rect() {}
+Point::Point() {}
 
-Rect::Rect(SDL_Renderer *renderer, int x, int y, int w, int h, Uint32 color)
+Point::Point(int x, int y)
+{
+  this->x = x;
+  this->y = y;
+}
+
+Point::Point(SDL_Renderer *renderer, int x, int y, Uint32 color)
 {
   this->renderer = renderer;
 
   this->x = x;
   this->y = y;
-  this->w = w;
-  this->h = h;
 
   this->color.r = color >> 24;
   this->color.g = (color >> 16) & 0xFF;
@@ -17,10 +21,8 @@ Rect::Rect(SDL_Renderer *renderer, int x, int y, int w, int h, Uint32 color)
   this->color.a = color & 0xFF;
 }
 
-void Rect::render()
+void Point::render()
 {
-  SDL_Rect rect = {x, y, w, h};
-
   SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
-  SDL_RenderFillRect(renderer, &rect);
+  SDL_RenderDrawPoint(renderer, x, y);
 }

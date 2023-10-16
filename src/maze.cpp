@@ -39,10 +39,8 @@ void Maze::initPoints()
   {
     for (int column = 0; column < columns; column++)
     {
-      mazePoints[row][column].numLines = 0;
-      mazePoints[row][column].rect = new Rect(renderer, (column * rectDistance) + rectWidth,
-                                              (row * rectDistance) + rectHeight,
-                                              rectWidth, rectHeight, rectColor);
+      mazePoints[row][column].point = new Point(renderer, (column * pointDistance),
+                                                (row * pointDistance), pointColor);
     }
   }
 }
@@ -59,15 +57,8 @@ void Maze::initLines()
       MazePoint origin = mazePoints[row][column];
       MazePoint destiny = mazePoints[randomRow][randomColumn];
 
-      mazePoints[row][column].line = new Line(renderer,
-                                              origin.rect->x - origin.numLines,
-                                              origin.rect->y - origin.numLines,
-                                              destiny.rect->x - destiny.numLines,
-                                              destiny.rect->y - destiny.numLines,
-                                              lineColor);
-
-      origin.numLines++;
-      destiny.numLines++;
+      mazePoints[row][column].line = new Line(renderer, origin.point->x, origin.point->y,
+                                              destiny.point->x, destiny.point->y, lineColor);
     }
   }
 }
@@ -84,10 +75,42 @@ void Maze::update()
 
         if (verifyConflicts(origin.line))
         {
-          printf("row: %d, column: %d\n", row, column);
-
           int newRow = row;
           int newColumn = column;
+
+          int random = getRandomNumber(8);
+
+          switch (random)
+          {
+          case 0:
+            newRow = row + 1;
+            break;
+          case 1:
+            newRow = row - 1;
+            break;
+          case 2:
+            newColumn = column + 1;
+            break;
+          case 3:
+            newColumn = column - 1;
+            break;
+          case 4:
+            newRow = row + 1;
+            newColumn = column - 1;
+            break;
+          case 5:
+            newRow = row + 1;
+            newColumn = column + 1;
+            break;
+          case 6:
+            newRow = row - 1;
+            newColumn = column - 1;
+            break;
+          case 7:
+            newRow = row - 1;
+            newColumn = column + 1;
+            break;
+          }
 
           if (row == 0)
             newRow = row + 1;
@@ -97,33 +120,11 @@ void Maze::update()
             newColumn = column + 1;
           else if (column == columns - 1)
             newColumn = column - 1;
-          else
-          {
-            int random = getRandomNumber(4);
-
-            switch (random)
-            {
-            case 0:
-              newRow = row + 1;
-              break;
-            case 1:
-              newRow = row - 1;
-              break;
-            case 2:
-              newColumn = column + 1;
-              break;
-            case 3:
-              newColumn = column - 1;
-              break;
-            }
-          }
 
           MazePoint destiny = mazePoints[newRow][newColumn];
 
-          origin.line->update(origin.rect->x - origin.numLines,
-                              origin.rect->y - origin.numLines,
-                              destiny.rect->x - destiny.numLines,
-                              destiny.rect->y - destiny.numLines);
+          origin.line->update(origin.point->x, origin.point->y,
+                              destiny.point->x, destiny.point->y);
 
           origin.line->render();
         }
@@ -157,6 +158,12 @@ bool Maze::verifyConflicts(Line *line)
 
 bool Maze::doIntersect(Point p1, Point q1, Point p2, Point q2)
 {
+  if ((p1.x == p2.x && p1.y == p2.y) ||
+      (p1.x == q2.x && p1.y == q2.y) ||
+      (q1.x == p2.x && q1.y == p2.y) ||
+      (q1.x == q2.x && q1.y == q2.y))
+    return false;
+
   int o1 = orientation(p1, q1, p2);
   int o2 = orientation(p1, q1, q2);
   int o3 = orientation(p2, q2, p1);
@@ -208,7 +215,7 @@ void Maze::render()
     {
       MazePoint point = mazePoints[row][column];
 
-      point.rect->render();
+      point.point->render();
       point.line->render();
     }
   }

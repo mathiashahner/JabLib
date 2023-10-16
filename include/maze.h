@@ -2,24 +2,17 @@
 #define MAZE_H
 
 #include <line.h>
-#include <rect.h>
 #include <time.h>
+#include <point.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <SDL2/SDL.h>
 
 typedef struct MazePoint
 {
-  int numLines;
   Line *line;
-  Rect *rect;
+  Point *point;
 } MazePoint;
-
-typedef struct Point
-{
-  int x;
-  int y;
-} Point;
 
 class Maze
 {
@@ -31,10 +24,8 @@ public:
   void render();
 
 private:
-  const int rectWidth = 2;
-  const int rectHeight = 2;
-  const int rectDistance = 10;
-  const int rectColor = 0xFF0000FF;
+  const int pointDistance = 10;
+  const int pointColor = 0xFF0000FF;
   const int lineColor = 0x00FF00FF;
 
   int rows;

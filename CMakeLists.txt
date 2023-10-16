@@ -6,7 +6,7 @@ add_executable(
   src/main.cpp
   src/game.cpp
   src/maze.cpp
-  src/rect.cpp
+  src/point.cpp
   src/line.cpp
 )
 
