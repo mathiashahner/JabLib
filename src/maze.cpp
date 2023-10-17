@@ -35,6 +35,7 @@ void Maze::initPoints()
   {
     for (int column = 0; column < columns; column++)
     {
+      mazePoints[row][column].isVisited = false;
       mazePoints[row][column].point = new Point(renderer, (column * pointDistance),
                                                 (row * pointDistance), pointColor);
     }
@@ -78,61 +79,124 @@ void Maze::initLines()
 
 void Maze::update()
 {
-  // for (int row = 0; row < rows; row++)
-  // {
-  //   for (int column = 0; column < columns; column++)
-  //   {
-  //     MazePoint origin = mazePoints[row][column];
+  depthFirstSearch(&mazePoints[0][0]);
+}
 
-  //     int newRow = row;
-  //     int newColumn = column;
+void Maze::depthFirstSearch(MazePoint *point)
+{
+  point->isVisited = true;
 
-  //     int random = getRandomNumber(8);
+  neighbour = getUnvisitedNeighbour(point);
 
-  //     switch (random)
-  //     {
-  //     case 0:
-  //       newRow = row + 1;
-  //       break;
-  //     case 1:
-  //       newRow = row - 1;
-  //       break;
-  //     case 2:
-  //       newColumn = column + 1;
-  //       break;
-  //     case 3:
-  //       newColumn = column - 1;
-  //       break;
-  //     case 4:
-  //       newRow = row + 1;
-  //       newColumn = column - 1;
-  //       break;
-  //     case 5:
-  //       newRow = row + 1;
-  //       newColumn = column + 1;
-  //       break;
-  //     case 6:
-  //       newRow = row - 1;
-  //       newColumn = column - 1;
-  //       break;
-  //     case 7:
-  //       newRow = row - 1;
-  //       newColumn = column + 1;
-  //       break;
-  //     }
+  point ? printf("p(%d, %d) ", point->point->x, point->point->y) : printf("p(null) ");
+  neighbour ? printf("n(%d, %d)", neighbour->point->x, neighbour->point->y) : printf("n(null)");
+  printf("\n");
 
-  //     if (row == 0)
-  //       newRow = row + 1;
-  //     else if (row == rows - 1)
-  //       newRow = row - 1;
-  //     else if (column == 0)
-  //       newColumn = column + 1;
-  //     else if (column == columns - 1)
-  //       newColumn = column - 1;
+  while (neighbour)
+  {
+    removeWall(point, neighbour);
+    render();
+    depthFirstSearch(neighbour);
+  }
+}
 
-  //     MazePoint destiny = mazePoints[newRow][newColumn];
-  //   }
-  // }
+MazePoint *Maze::getUnvisitedNeighbour(MazePoint *point)
+{
+  int numEnumValues = sizeof(enum Direction);
+  int selectedValues[numEnumValues];
+
+  for (int i = 0; i < numEnumValues; i++)
+    selectedValues[i] = 0;
+
+  for (int i = 0; i < numEnumValues; i++)
+  {
+    Direction direction = getRandomDirection(selectedValues, numEnumValues);
+
+    int x = point->point->x;
+    int y = point->point->y;
+
+    switch (direction)
+    {
+    case UP:
+      y = point->point->y - pointDistance;
+      break;
+    case DOWN:
+      y = point->point->y + pointDistance;
+      break;
+    case LEFT:
+      x = point->point->x - pointDistance;
+      break;
+    case RIGHT:
+      x = point->point->x + pointDistance;
+      break;
+    }
+
+    if (x >= 0 && x < columns * pointDistance && y >= 0 && y < rows * pointDistance)
+    {
+      MazePoint *neighbour = &mazePoints[y / pointDistance][x / pointDistance];
+
+      if (!neighbour->isVisited)
+        return neighbour;
+    }
+  }
+
+  return NULL;
+}
+
+void Maze::removeWall(MazePoint *point, MazePoint *neighbour)
+{
+  int x = point->point->x;
+  int y = point->point->y;
+
+  Direction direction;
+
+  if (x == neighbour->point->x)
+  {
+    if (y > neighbour->point->y)
+      direction = UP;
+    else
+      direction = DOWN;
+  }
+  else
+  {
+    if (x > neighbour->point->x)
+      direction = LEFT;
+    else
+      direction = RIGHT;
+  }
+
+  switch (direction)
+  {
+  case UP:
+    delete point->xLine;
+    point->xLine = NULL;
+    break;
+  case DOWN:
+    delete neighbour->xLine;
+    neighbour->xLine = NULL;
+    break;
+  case LEFT:
+    delete point->yLine;
+    point->yLine = NULL;
+    break;
+  case RIGHT:
+    delete neighbour->yLine;
+    neighbour->yLine = NULL;
+    break;
+  }
+}
+
+Direction Maze::getRandomDirection(int *selectedValues, int numEnumValues)
+{
+  int randomIndex;
+
+  do
+    randomIndex = rand() % numEnumValues;
+  while (selectedValues[randomIndex]);
+
+  selectedValues[randomIndex] = 1;
+
+  return (enum Direction)randomIndex;
 }
 
 void Maze::render()
@@ -152,9 +216,4 @@ void Maze::render()
         point.yLine->render();
     }
   }
-}
-
-int Maze::getRandomNumber(int max)
-{
-  return rand() % max;
 }

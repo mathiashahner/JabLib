@@ -27,7 +27,7 @@ void Game::init()
       }
       else
       {
-        maze = new Maze(renderer, 70, 105);
+        maze = new Maze(renderer, 10, 10);
         isRunning = true;
       }
     }
@@ -46,7 +46,6 @@ void Game::render()
 
 void Game::update()
 {
-  maze->update();
 }
 
 void Game::clean()
@@ -65,6 +64,10 @@ void Game::handleEvents()
   {
   case SDL_QUIT:
     isRunning = false;
+    break;
+  case SDL_KEYDOWN:
+    if (event.key.keysym.sym == SDLK_s)
+      maze->update();
     break;
   default:
     break;

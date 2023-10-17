@@ -8,11 +8,20 @@
 #include <stdlib.h>
 #include <SDL2/SDL.h>
 
+typedef enum Direction
+{
+  UP,
+  DOWN,
+  LEFT,
+  RIGHT
+} Direction;
+
 typedef struct MazePoint
 {
   Line *xLine;
   Line *yLine;
   Point *point;
+  bool isVisited;
 } MazePoint;
 
 class Maze
@@ -32,13 +41,17 @@ private:
   int rows;
   int columns;
 
+  MazePoint *neighbour;
   MazePoint **mazePoints;
   SDL_Renderer *renderer;
 
   void initPoints();
   void initLines();
+  void depthFirstSearch(MazePoint *point);
 
-  int getRandomNumber(int max);
+  MazePoint *getUnvisitedNeighbour(MazePoint *point);
+  void removeWall(MazePoint *point, MazePoint *neighbour);
+  Direction getRandomDirection(int *selectedValues, int numEnumValues);
 };
 
 #endif
