@@ -32,9 +32,17 @@ void Game::update()
 
 void Game::clean()
 {
+  SDL_WaitThread(thread, NULL);
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);
   SDL_Quit();
+}
+
+int mazeUpdateWrapper(void *param)
+{
+  Maze *maze = static_cast<Maze *>(param);
+  maze->update();
+  return 0;
 }
 
 void Game::handleEvents()
@@ -49,7 +57,9 @@ void Game::handleEvents()
     break;
   case SDL_KEYDOWN:
     if (event.key.keysym.sym == SDLK_s)
-      maze->update();
+    {
+      thread = SDL_CreateThread(mazeUpdateWrapper, "MazeThread", (void *)maze);
+    }
     break;
   default:
     break;

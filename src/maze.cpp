@@ -92,10 +92,7 @@ void Maze::depthFirstSearch(MazePoint *point)
   {
     removeWall(point, neighbour);
 
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-    SDL_RenderClear(renderer);
-    render();
-    SDL_RenderPresent(renderer);
+    SDL_Delay(10);
 
     depthFirstSearch(neighbour);
     neighbour = getUnvisitedNeighbour(point);
