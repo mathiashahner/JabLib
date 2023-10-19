@@ -41,7 +41,6 @@ private:
   int rows;
   int columns;
 
-  MazePoint *neighbour;
   MazePoint **mazePoints;
   SDL_Renderer *renderer;
 

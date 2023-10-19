@@ -7,31 +7,13 @@ Game::Game()
 
 void Game::init()
 {
-  if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
-  {
-    fprintf(stderr, "Error on init SDL: %s\n", SDL_GetError());
-  }
-  else
-  {
-    window = SDL_CreateWindow("Maze Builder", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1080, 720, 0);
-    if (window == NULL)
-    {
-      fprintf(stderr, "Error on create window: %s\n", SDL_GetError());
-    }
-    else
-    {
-      renderer = SDL_CreateRenderer(window, -1, 0);
-      if (renderer == NULL)
-      {
-        fprintf(stderr, "Error on create renderer: %s\n", SDL_GetError());
-      }
-      else
-      {
-        maze = new Maze(renderer, 10, 10);
-        isRunning = true;
-      }
-    }
-  }
+  SDL_Init(SDL_INIT_EVERYTHING);
+
+  window = SDL_CreateWindow("Maze Builder", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1080, 720, SDL_WINDOW_SHOWN);
+  renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+
+  maze = new Maze(renderer, 70, 105);
+  isRunning = true;
 }
 
 void Game::render()

@@ -2,8 +2,8 @@
 
 Maze::Maze(SDL_Renderer *renderer, int rows, int columns)
 {
-  this->rows = rows;
-  this->columns = columns;
+  this->rows = rows + 1;
+  this->columns = columns + 1;
   this->renderer = renderer;
 
   srand(time(NULL));
@@ -86,17 +86,19 @@ void Maze::depthFirstSearch(MazePoint *point)
 {
   point->isVisited = true;
 
-  neighbour = getUnvisitedNeighbour(point);
-
-  point ? printf("p(%d, %d) ", point->point->x, point->point->y) : printf("p(null) ");
-  neighbour ? printf("n(%d, %d)", neighbour->point->x, neighbour->point->y) : printf("n(null)");
-  printf("\n");
+  MazePoint *neighbour = getUnvisitedNeighbour(point);
 
   while (neighbour)
   {
     removeWall(point, neighbour);
+
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_RenderClear(renderer);
     render();
+    SDL_RenderPresent(renderer);
+
     depthFirstSearch(neighbour);
+    neighbour = getUnvisitedNeighbour(point);
   }
 }
 
@@ -131,7 +133,7 @@ MazePoint *Maze::getUnvisitedNeighbour(MazePoint *point)
       break;
     }
 
-    if (x >= 0 && x < columns * pointDistance && y >= 0 && y < rows * pointDistance)
+    if (x >= 0 && x < ((columns - 1) * pointDistance) && y >= 0 && y < ((rows - 1) * pointDistance))
     {
       MazePoint *neighbour = &mazePoints[y / pointDistance][x / pointDistance];
 
