@@ -5,6 +5,7 @@ Maze::Maze(SDL_Renderer *renderer, int rows, int columns)
   this->rows = rows + 1;
   this->columns = columns + 1;
   this->renderer = renderer;
+  this->delay = 50;
 
   srand(time(NULL));
 
@@ -92,7 +93,8 @@ void Maze::depthFirstSearch(MazePoint *point)
   {
     removeWall(point, neighbour);
 
-    SDL_Delay(10);
+    if (delay > 0)
+      SDL_Delay(delay);
 
     depthFirstSearch(neighbour);
     neighbour = getUnvisitedNeighbour(point);
@@ -215,4 +217,22 @@ void Maze::render()
         point.yLine->render();
     }
   }
+}
+
+void Maze::reset()
+{
+  initPoints();
+  initLines();
+}
+
+void Maze::decreaseDelay()
+{
+  if (delay > 0)
+    delay -= 10;
+}
+
+void Maze::increaseDelay()
+{
+  if (delay < 100)
+    delay += 10;
 }

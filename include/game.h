@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 
 class Game
 {
@@ -30,6 +31,9 @@ private:
   SDL_Window *window;
   SDL_Renderer *renderer;
   SDL_Thread *thread;
+
+  SDL_Rect fontRect;
+  SDL_Texture *texture;
 };
 
 #endif

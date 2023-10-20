@@ -13,15 +13,26 @@ void Game::init()
   renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
   maze = new Maze(renderer, 70, 105);
+
+  TTF_Init();
+
+  TTF_Font *font = TTF_OpenFont("/home/mathiashahner/dev/maze-builder/assets/arial.ttf", 24);
+  SDL_Color color = {255, 255, 255, 255};
+  SDL_Surface *surface = TTF_RenderText_Solid(font, "text test", color);
+  texture = SDL_CreateTextureFromSurface(renderer, surface);
+  fontRect = {200, 200, 100, 24};
+  SDL_FreeSurface(surface);
+
   isRunning = true;
 }
 
 void Game::render()
 {
-  SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+  SDL_SetRenderDrawColor(renderer, 30, 30, 30, 255);
   SDL_RenderClear(renderer);
 
   maze->render();
+  SDL_RenderCopy(renderer, texture, NULL, &fontRect);
 
   SDL_RenderPresent(renderer);
 }
@@ -32,6 +43,8 @@ void Game::update()
 
 void Game::clean()
 {
+  SDL_DestroyTexture(texture);
+
   SDL_WaitThread(thread, NULL);
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);
@@ -40,7 +53,7 @@ void Game::clean()
 
 int mazeUpdateWrapper(void *param)
 {
-  Maze *maze = static_cast<Maze *>(param);
+  Maze *maze = (Maze *)param;
   maze->update();
   return 0;
 }
@@ -56,13 +69,21 @@ void Game::handleEvents()
     isRunning = false;
     break;
   case SDL_KEYDOWN:
-    if (event.key.keysym.sym == SDLK_s)
+    switch (event.key.keysym.sym)
     {
+    case SDLK_s:
       thread = SDL_CreateThread(mazeUpdateWrapper, "MazeThread", (void *)maze);
+      break;
+    case SDLK_r:
+      maze->reset();
+      break;
+    case SDLK_DOWN:
+      maze->increaseDelay();
+      break;
+    case SDLK_UP:
+      maze->decreaseDelay();
+      break;
     }
-    break;
-  default:
-    break;
   }
 }
 

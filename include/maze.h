@@ -32,14 +32,18 @@ public:
 
   void update();
   void render();
+  void reset();
+  void decreaseDelay();
+  void increaseDelay();
 
 private:
   const int pointDistance = 10;
-  const int pointColor = 0xFF0000FF;
-  const int lineColor = 0x00FF00FF;
+  const int pointColor = 0xAA00AAFF;
+  const int lineColor = 0xAA00AAFF;
 
   int rows;
   int columns;
+  int delay;
 
   MazePoint **mazePoints;
   SDL_Renderer *renderer;
