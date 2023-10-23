@@ -30,6 +30,10 @@ public:
   Maze(SDL_Renderer *renderer, int rows, int columns);
   ~Maze();
 
+  int rows;
+  int columns;
+  int delay;
+
   void update();
   void render();
   void reset();
@@ -40,10 +44,6 @@ private:
   const int pointDistance = 10;
   const int pointColor = 0xAA00AAFF;
   const int lineColor = 0xAA00AAFF;
-
-  int rows;
-  int columns;
-  int delay;
 
   MazePoint **mazePoints;
   SDL_Renderer *renderer;

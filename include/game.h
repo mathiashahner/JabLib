@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include <maze.h>
+#include <info.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <SDL2/SDL.h>
@@ -26,14 +27,12 @@ private:
   const int frameDelay = 1000 / fps;
 
   Maze *maze;
+  Info *info;
 
   bool isRunning;
   SDL_Window *window;
   SDL_Renderer *renderer;
   SDL_Thread *thread;
-
-  SDL_Rect fontRect;
-  SDL_Texture *texture;
 };
 
 #endif

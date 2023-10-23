@@ -12,16 +12,8 @@ void Game::init()
   window = SDL_CreateWindow("Maze Builder", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1080, 720, SDL_WINDOW_SHOWN);
   renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
-  maze = new Maze(renderer, 70, 105);
-
-  TTF_Init();
-
-  TTF_Font *font = TTF_OpenFont("/home/mathiashahner/dev/maze-builder/assets/arial.ttf", 24);
-  SDL_Color color = {255, 255, 255, 255};
-  SDL_Surface *surface = TTF_RenderText_Solid(font, "text test", color);
-  texture = SDL_CreateTextureFromSurface(renderer, surface);
-  fontRect = {200, 200, 100, 24};
-  SDL_FreeSurface(surface);
+  maze = new Maze(renderer, 50, 50);
+  info = new Info(renderer, maze);
 
   isRunning = true;
 }
@@ -32,7 +24,7 @@ void Game::render()
   SDL_RenderClear(renderer);
 
   maze->render();
-  SDL_RenderCopy(renderer, texture, NULL, &fontRect);
+  info->render();
 
   SDL_RenderPresent(renderer);
 }
@@ -43,8 +35,6 @@ void Game::update()
 
 void Game::clean()
 {
-  SDL_DestroyTexture(texture);
-
   SDL_WaitThread(thread, NULL);
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);

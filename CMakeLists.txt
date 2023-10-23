@@ -8,8 +8,10 @@ add_executable(
   src/main.cpp
   src/game.cpp
   src/maze.cpp
-  src/point.cpp
-  src/line.cpp
+  src/objects/point.cpp
+  src/objects/line.cpp
+  src/text/info.cpp
+  src/text/SDL_FontCache.cpp
 )
 
 find_package(SDL2 REQUIRED)
@@ -19,6 +21,8 @@ target_include_directories(
   ${PROJECT_NAME}
   PUBLIC
   include/
+  include/text/
+  include/objects/
   ${SDL2_INCLUDE_DIRS}
   ${SDL2_TTF_INCLUDE_DIRS}
 )
