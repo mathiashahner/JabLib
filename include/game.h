@@ -13,17 +13,19 @@ class Game
 public:
   Game();
 
+  Uint32 frameStart;
+
   void init();
   void render();
   void update();
   void clean();
   void handleEvents();
-  void delay(Uint32 frameStart);
+  void delay();
 
   bool running();
 
 private:
-  const int fps = 60;
+  const int fps = 30;
   const int frameDelay = 1000 / fps;
 
   Maze *maze;

@@ -74,6 +74,7 @@ void Game::handleEvents()
       maze->decreaseDelay();
       break;
     }
+    break;
   }
 }
 
@@ -82,7 +83,7 @@ bool Game::running()
   return isRunning;
 }
 
-void Game::delay(Uint32 frameStart)
+void Game::delay()
 {
   int frameTime = SDL_GetTicks() - frameStart;
 
