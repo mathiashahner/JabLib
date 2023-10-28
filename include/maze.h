@@ -33,6 +33,7 @@ public:
   int rows;
   int columns;
   int delay;
+  bool isGenerating;
 
   void update();
   void render();
@@ -50,6 +51,7 @@ private:
 
   void initPoints();
   void initLines();
+  void deleteMazePoints();
   void depthFirstSearch(MazePoint *point);
 
   MazePoint *getUnvisitedNeighbour(MazePoint *point);

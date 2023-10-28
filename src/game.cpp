@@ -9,7 +9,7 @@ void Game::init()
 {
   SDL_Init(SDL_INIT_EVERYTHING);
 
-  window = SDL_CreateWindow("Maze Builder", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1080, 720, SDL_WINDOW_SHOWN);
+  window = SDL_CreateWindow("Maze Builder", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1080, 720, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
   renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
   maze = new Maze(renderer, 50, 50);
@@ -51,7 +51,11 @@ int mazeUpdateWrapper(void *param)
 void Game::handleEvents()
 {
   SDL_Event event;
-  SDL_PollEvent(&event);
+
+  if (maze->isGenerating)
+    SDL_PollEvent(&event);
+  else
+    SDL_WaitEvent(&event);
 
   switch (event.type)
   {
@@ -81,6 +85,11 @@ void Game::handleEvents()
 bool Game::running()
 {
   return isRunning;
+}
+
+void Game::setFrameStart()
+{
+  frameStart = SDL_GetTicks();
 }
 
 void Game::delay()

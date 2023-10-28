@@ -7,8 +7,7 @@ int main(int argc, char *argv[])
 
   while (game->running())
   {
-    game->frameStart = SDL_GetTicks();
-
+    game->setFrameStart();
     game->handleEvents();
     game->update();
     game->render();

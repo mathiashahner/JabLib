@@ -5,6 +5,7 @@ Maze::Maze(SDL_Renderer *renderer, int rows, int columns)
   this->rows = rows + 1;
   this->columns = columns + 1;
   this->renderer = renderer;
+  this->isGenerating = false;
   this->delay = 50;
 
   srand(time(NULL));
@@ -15,12 +16,7 @@ Maze::Maze(SDL_Renderer *renderer, int rows, int columns)
 
 Maze::~Maze()
 {
-  for (int row = 0; row < rows; row++)
-  {
-    delete[] mazePoints[row];
-  }
-
-  delete[] mazePoints;
+  deleteMazePoints();
 }
 
 void Maze::initPoints()
@@ -80,7 +76,9 @@ void Maze::initLines()
 
 void Maze::update()
 {
+  isGenerating = true;
   depthFirstSearch(&mazePoints[0][0]);
+  isGenerating = false;
 }
 
 void Maze::depthFirstSearch(MazePoint *point)
@@ -219,8 +217,19 @@ void Maze::render()
   }
 }
 
+void Maze::deleteMazePoints()
+{
+  for (int row = 0; row < rows; row++)
+  {
+    delete[] mazePoints[row];
+  }
+
+  delete[] mazePoints;
+}
+
 void Maze::reset()
 {
+  deleteMazePoints();
   initPoints();
   initLines();
 }
