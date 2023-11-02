@@ -38,19 +38,21 @@ public:
   int rows;
   int columns;
   int delay;
+  int pointDistance;
   bool isGenerating;
 
   void update();
-  void render();
+  void render(int screenWidth, int screenHeight);
   void reset();
   void decreaseDelay();
   void increaseDelay();
+  void decreasePointDistance();
+  void increasePointDistance();
   void resizeMaze(ResizeOption option);
 
 private:
-  const int xInitial = 225;
-  const int yInitial = 10;
-  const int pointDistance = 10;
+  const int xOffset = 240;
+  const int yOffset = 0;
   const int pointColor = 0xAA00AAFF;
   const int lineColor = 0xAA00AAFF;
 

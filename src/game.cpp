@@ -12,7 +12,7 @@ void Game::init()
   window = SDL_CreateWindow("Maze Builder", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1080, 720, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
   renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
-  maze = new Maze(renderer, 50, 50);
+  maze = new Maze(renderer, 20, 30);
   info = new Info(renderer, maze);
 
   isRunning = true;
@@ -20,10 +20,13 @@ void Game::init()
 
 void Game::render()
 {
+  int w, h;
+  SDL_GetWindowSize(window, &w, &h);
+
   SDL_SetRenderDrawColor(renderer, 30, 30, 30, 255);
   SDL_RenderClear(renderer);
 
-  maze->render();
+  maze->render(w, h);
   info->render();
 
   SDL_RenderPresent(renderer);
@@ -65,7 +68,7 @@ void Game::handleEvents()
   case SDL_KEYDOWN:
     switch (event.key.keysym.sym)
     {
-    case SDLK_s:
+    case SDLK_g:
       thread = SDL_CreateThread(mazeUpdateWrapper, "MazeThread", (void *)maze);
       break;
     case SDLK_r:
@@ -74,21 +77,31 @@ void Game::handleEvents()
     case SDLK_e:
       isRunning = false;
       break;
-    case SDLK_d:
+    case SDLK_1:
+      maze->decreasePointDistance();
+      break;
+    case SDLK_2:
+      maze->increasePointDistance();
+      break;
+    case SDLK_3:
       maze->increaseDelay();
       break;
-    case SDLK_f:
+    case SDLK_4:
       maze->decreaseDelay();
       break;
-    case SDLK_DOWN:
+    case SDLK_w:
+    case SDLK_UP:
       maze->resizeMaze(ADD_ROW);
       break;
-    case SDLK_UP:
+    case SDLK_s:
+    case SDLK_DOWN:
       maze->resizeMaze(REMOVE_ROW);
       break;
+    case SDLK_a:
     case SDLK_LEFT:
       maze->resizeMaze(REMOVE_COLUMN);
       break;
+    case SDLK_d:
     case SDLK_RIGHT:
       maze->resizeMaze(ADD_COLUMN);
       break;

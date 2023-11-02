@@ -7,6 +7,7 @@ Maze::Maze(SDL_Renderer *renderer, int rows, int columns)
   this->columns = columns + 1;
   this->renderer = renderer;
   this->isGenerating = false;
+  this->pointDistance = 20;
   this->delay = 50;
 
   srand(time(NULL));
@@ -199,8 +200,11 @@ Direction Maze::getRandomDirection(int *selectedValues, int numEnumValues)
   return (enum Direction)randomIndex;
 }
 
-void Maze::render()
+void Maze::render(int screenWidth, int screenHeight)
 {
+  int xInitial = ((screenWidth / 2) - (((columns - 1) * pointDistance) / 2)) + (xOffset / 2);
+  int yInitial = ((screenHeight / 2) - (((rows - 1) * pointDistance) / 2)) + (yOffset / 2);
+
   for (int row = 0; row < rows; row++)
   {
     for (int column = 0; column < columns; column++)
@@ -247,6 +251,24 @@ void Maze::increaseDelay()
     delay += 10;
 }
 
+void Maze::decreasePointDistance()
+{
+  if (pointDistance > 10)
+  {
+    pointDistance -= 1;
+    reset();
+  }
+}
+
+void Maze::increasePointDistance()
+{
+  if (pointDistance < 50)
+  {
+    pointDistance += 1;
+    reset();
+  }
+}
+
 void Maze::resizeMaze(ResizeOption option)
 {
   deleteMazePoints();
@@ -260,10 +282,12 @@ void Maze::resizeMaze(ResizeOption option)
     columns++;
     break;
   case REMOVE_ROW:
-    rows--;
+    if (rows > 2)
+      rows--;
     break;
   case REMOVE_COLUMN:
-    columns--;
+    if (columns > 2)
+      columns--;
     break;
   }
 
