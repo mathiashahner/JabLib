@@ -44,10 +44,10 @@ void Game::clean()
   SDL_Quit();
 }
 
-int mazeUpdateWrapper(void *param)
+int mazeGenerateWrapper(void *param)
 {
   Maze *maze = (Maze *)param;
-  maze->update();
+  maze->generate();
   return 0;
 }
 
@@ -69,7 +69,7 @@ void Game::handleEvents()
     switch (event.key.keysym.sym)
     {
     case SDLK_g:
-      thread = SDL_CreateThread(mazeUpdateWrapper, "MazeThread", (void *)maze);
+      thread = SDL_CreateThread(mazeGenerateWrapper, "MazeThread", (void *)maze);
       break;
     case SDLK_r:
       maze->reset();

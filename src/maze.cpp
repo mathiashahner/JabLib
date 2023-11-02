@@ -76,7 +76,7 @@ void Maze::initLines()
   }
 }
 
-void Maze::update()
+void Maze::generate()
 {
   isGenerating = true;
   depthFirstSearch(&mazePoints[0][0]);

@@ -41,9 +41,9 @@ public:
   int pointDistance;
   bool isGenerating;
 
-  void update();
-  void render(int screenWidth, int screenHeight);
   void reset();
+  void generate();
+  void render(int screenWidth, int screenHeight);
   void decreaseDelay();
   void increaseDelay();
   void decreasePointDistance();
