@@ -19,6 +19,7 @@ private:
 
   Maze *maze;
   FC_Font *font;
+  Line *divisionLine;
   SDL_Renderer *renderer;
 };
 

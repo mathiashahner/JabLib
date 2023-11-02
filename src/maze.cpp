@@ -1,3 +1,4 @@
+#include <time.h>
 #include <maze.h>
 
 Maze::Maze(SDL_Renderer *renderer, int rows, int columns)
@@ -206,13 +207,13 @@ void Maze::render()
     {
       MazePoint point = mazePoints[row][column];
 
-      point.point->render();
+      point.point->render(xInitial, yInitial);
 
       if (point.xLine != NULL)
-        point.xLine->render();
+        point.xLine->render(xInitial, yInitial);
 
       if (point.yLine != NULL)
-        point.yLine->render();
+        point.yLine->render(xInitial, yInitial);
     }
   }
 }
@@ -244,4 +245,28 @@ void Maze::increaseDelay()
 {
   if (delay < 100)
     delay += 10;
+}
+
+void Maze::resizeMaze(ResizeOption option)
+{
+  deleteMazePoints();
+
+  switch (option)
+  {
+  case ADD_ROW:
+    rows++;
+    break;
+  case ADD_COLUMN:
+    columns++;
+    break;
+  case REMOVE_ROW:
+    rows--;
+    break;
+  case REMOVE_COLUMN:
+    columns--;
+    break;
+  }
+
+  initPoints();
+  initLines();
 }

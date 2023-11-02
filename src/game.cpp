@@ -71,11 +71,26 @@ void Game::handleEvents()
     case SDLK_r:
       maze->reset();
       break;
-    case SDLK_DOWN:
+    case SDLK_e:
+      isRunning = false;
+      break;
+    case SDLK_d:
       maze->increaseDelay();
       break;
-    case SDLK_UP:
+    case SDLK_f:
       maze->decreaseDelay();
+      break;
+    case SDLK_DOWN:
+      maze->resizeMaze(ADD_ROW);
+      break;
+    case SDLK_UP:
+      maze->resizeMaze(REMOVE_ROW);
+      break;
+    case SDLK_LEFT:
+      maze->resizeMaze(REMOVE_COLUMN);
+      break;
+    case SDLK_RIGHT:
+      maze->resizeMaze(ADD_COLUMN);
       break;
     }
     break;

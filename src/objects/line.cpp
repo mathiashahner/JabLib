@@ -17,10 +17,10 @@ Line::Line(SDL_Renderer *renderer, int x1, int y1, int x2, int y2, Uint32 color)
   this->y2 = y2;
 }
 
-void Line::render()
+void Line::render(int xOffset, int yOffset)
 {
   SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
-  SDL_RenderDrawLine(renderer, x1, y1, x2, y2);
+  SDL_RenderDrawLine(renderer, x1 + xOffset, y1 + yOffset, x2 + xOffset, y2 + yOffset);
 }
 
 void Line::update(int x1, int y1, int x2, int y2)

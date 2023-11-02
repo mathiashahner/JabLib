@@ -13,7 +13,7 @@ public:
   int y1, y2;
 
   void update(int x1, int y1, int x2, int y2);
-  void render();
+  void render(int xOffset, int yOffset);
 
 private:
   SDL_Color color;

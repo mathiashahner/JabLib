@@ -2,10 +2,7 @@
 #define MAZE_H
 
 #include <line.h>
-#include <time.h>
 #include <point.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include <SDL2/SDL.h>
 
 typedef enum Direction
@@ -15,6 +12,14 @@ typedef enum Direction
   LEFT,
   RIGHT
 } Direction;
+
+typedef enum ResizeOption
+{
+  ADD_ROW,
+  ADD_COLUMN,
+  REMOVE_ROW,
+  REMOVE_COLUMN
+} ResizeOption;
 
 typedef struct MazePoint
 {
@@ -40,8 +45,11 @@ public:
   void reset();
   void decreaseDelay();
   void increaseDelay();
+  void resizeMaze(ResizeOption option);
 
 private:
+  const int xInitial = 225;
+  const int yInitial = 10;
   const int pointDistance = 10;
   const int pointColor = 0xAA00AAFF;
   const int lineColor = 0xAA00AAFF;

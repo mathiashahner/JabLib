@@ -3,15 +3,15 @@ project(maze-builder VERSION 0.1.0 LANGUAGES C CXX)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
+file(GLOB SOURCES
+  src/*.cpp
+  src/text/*.cpp
+  src/objects/*.cpp
+)
+
 add_executable(
   ${PROJECT_NAME}
-  src/main.cpp
-  src/game.cpp
-  src/maze.cpp
-  src/objects/point.cpp
-  src/objects/line.cpp
-  src/text/info.cpp
-  src/text/SDL_FontCache.cpp
+  ${SOURCES}
 )
 
 find_package(SDL2 REQUIRED)
