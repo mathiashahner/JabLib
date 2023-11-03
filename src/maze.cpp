@@ -1,5 +1,6 @@
 #include <time.h>
 #include <maze.h>
+#include <dfs.h>
 
 Maze::Maze(SDL_Renderer *renderer, int rows, int columns)
 {
@@ -79,69 +80,11 @@ void Maze::initLines()
 void Maze::generate()
 {
   isGenerating = true;
-  depthFirstSearch(&mazePoints[0][0]);
+
+  DFS *dfs = new DFS(this);
+  dfs->depthFirstSearch(&mazePoints[0][0]);
+
   isGenerating = false;
-}
-
-void Maze::depthFirstSearch(MazePoint *point)
-{
-  point->isVisited = true;
-
-  MazePoint *neighbour = getUnvisitedNeighbour(point);
-
-  while (neighbour)
-  {
-    removeWall(point, neighbour);
-
-    if (delay > 0)
-      SDL_Delay(delay);
-
-    depthFirstSearch(neighbour);
-    neighbour = getUnvisitedNeighbour(point);
-  }
-}
-
-MazePoint *Maze::getUnvisitedNeighbour(MazePoint *point)
-{
-  int numEnumValues = sizeof(enum Direction);
-  int selectedValues[numEnumValues];
-
-  for (int i = 0; i < numEnumValues; i++)
-    selectedValues[i] = 0;
-
-  for (int i = 0; i < numEnumValues; i++)
-  {
-    Direction direction = getRandomDirection(selectedValues, numEnumValues);
-
-    int x = point->point->x;
-    int y = point->point->y;
-
-    switch (direction)
-    {
-    case UP:
-      y = point->point->y - pointDistance;
-      break;
-    case DOWN:
-      y = point->point->y + pointDistance;
-      break;
-    case LEFT:
-      x = point->point->x - pointDistance;
-      break;
-    case RIGHT:
-      x = point->point->x + pointDistance;
-      break;
-    }
-
-    if (x >= 0 && x < ((columns - 1) * pointDistance) && y >= 0 && y < ((rows - 1) * pointDistance))
-    {
-      MazePoint *neighbour = &mazePoints[y / pointDistance][x / pointDistance];
-
-      if (!neighbour->isVisited)
-        return neighbour;
-    }
-  }
-
-  return NULL;
 }
 
 void Maze::removeWall(MazePoint *point, MazePoint *neighbour)
@@ -185,19 +128,6 @@ void Maze::removeWall(MazePoint *point, MazePoint *neighbour)
     neighbour->yLine = NULL;
     break;
   }
-}
-
-Direction Maze::getRandomDirection(int *selectedValues, int numEnumValues)
-{
-  int randomIndex;
-
-  do
-    randomIndex = rand() % numEnumValues;
-  while (selectedValues[randomIndex]);
-
-  selectedValues[randomIndex] = 1;
-
-  return (enum Direction)randomIndex;
 }
 
 void Maze::render(int screenWidth, int screenHeight)

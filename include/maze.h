@@ -40,6 +40,7 @@ public:
   int delay;
   int pointDistance;
   bool isGenerating;
+  MazePoint **mazePoints;
 
   void reset();
   void generate();
@@ -49,6 +50,7 @@ public:
   void decreasePointDistance();
   void increasePointDistance();
   void resizeMaze(ResizeOption option);
+  void removeWall(MazePoint *point, MazePoint *neighbour);
 
 private:
   const int xOffset = 240;
@@ -56,17 +58,11 @@ private:
   const int pointColor = 0xAA00AAFF;
   const int lineColor = 0xAA00AAFF;
 
-  MazePoint **mazePoints;
   SDL_Renderer *renderer;
 
   void initPoints();
   void initLines();
   void deleteMazePoints();
-  void depthFirstSearch(MazePoint *point);
-
-  MazePoint *getUnvisitedNeighbour(MazePoint *point);
-  void removeWall(MazePoint *point, MazePoint *neighbour);
-  Direction getRandomDirection(int *selectedValues, int numEnumValues);
 };
 
 #endif
