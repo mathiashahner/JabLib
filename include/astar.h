@@ -5,9 +5,12 @@
 #include <stack>
 #include <maze.h>
 #include <point.h>
+#include <iostream>
 
-#define ROW 9
-#define COL 10
+using namespace std;
+
+typedef pair<int, int> Pair;
+typedef pair<double, pair<int, int>> pPair;
 
 struct Cell
 {
@@ -15,23 +18,22 @@ struct Cell
   double f, g, h;
 };
 
-using namespace std;
-
 class AStar
 {
 public:
   AStar(Maze *maze);
 
-  Maze *maze;
-
-  void aStarSearch(int grid[][COL], Pair src, Pair dest);
+  void aStarSearch(Pair src, Pair dest);
 
 private:
+  Maze *maze;
+  Cell **cellDetails;
+
   bool isValid(int row, int col);
   bool isUnBlocked(int row, int col, Direction direction);
   bool isDestination(int row, int col, Pair dest);
   double calculateHValue(int row, int col, Pair dest);
-  void tracePath(Cell cellDetails[][COL], Pair dest);
+  void tracePath(Pair dest);
 };
 
 #endif

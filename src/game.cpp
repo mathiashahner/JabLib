@@ -1,4 +1,5 @@
 #include <game.h>
+#include <astar.h>
 
 Game::Game()
 {
@@ -89,6 +90,12 @@ void Game::handleEvents()
     case SDLK_4:
       maze->decreaseDelay();
       break;
+    case SDLK_5:
+    {
+      AStar *aStar = new AStar(maze);
+      aStar->aStarSearch(make_pair(0, 0), make_pair(maze->rows - 2, maze->columns - 2));
+    }
+    break;
     case SDLK_w:
     case SDLK_UP:
       maze->resizeMaze(ADD_ROW);

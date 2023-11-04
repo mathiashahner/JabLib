@@ -26,6 +26,7 @@ typedef struct MazePoint
   Line *xLine;
   Line *yLine;
   Point *point;
+  bool isPath;
   bool isVisited;
 } MazePoint;
 

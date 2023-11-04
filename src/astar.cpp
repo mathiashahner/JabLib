@@ -1,47 +1,31 @@
 #include <astar.h>
 
-typedef pair<int, int> Pair;
-typedef pair<double, pair<int, int>> pPair;
-
 AStar::AStar(Maze *maze)
 {
   this->maze = maze;
 }
 
-void AStar::aStarSearch(int grid[][COL], Pair src, Pair dest)
+void AStar::aStarSearch(Pair src, Pair dest)
 {
-  if (isValid(src.first, src.second) == false)
-  {
-    printf("Source is invalid\n");
-    return;
-  }
-
-  if (isValid(dest.first, dest.second) == false)
-  {
-    printf("Destination is invalid\n");
-    return;
-  }
-
-  if (isDestination(src.first, src.second, dest) == true)
-  {
-    printf("We are already at the destination\n");
-    return;
-  }
-
-  bool closedList[ROW][COL];
+  bool closedList[maze->rows - 1][maze->columns - 1];
   memset(closedList, false, sizeof(closedList));
 
-  Cell cellDetails[ROW][COL];
+  cellDetails = new Cell *[maze->rows - 1];
+
+  for (int row = 0; row < maze->rows - 1; row++)
+  {
+    cellDetails[row] = new Cell[maze->columns - 1];
+  }
 
   int i, j;
 
-  for (i = 0; i < ROW; i++)
+  for (i = 0; i < maze->rows - 1; i++)
   {
-    for (j = 0; j < COL; j++)
+    for (j = 0; j < maze->columns - 1; j++)
     {
-      cellDetails[i][j].f = DBL_MAX;
-      cellDetails[i][j].g = DBL_MAX;
-      cellDetails[i][j].h = DBL_MAX;
+      cellDetails[i][j].f = FLT_MAX;
+      cellDetails[i][j].g = FLT_MAX;
+      cellDetails[i][j].h = FLT_MAX;
       cellDetails[i][j].parent_i = -1;
       cellDetails[i][j].parent_j = -1;
     }
@@ -57,8 +41,6 @@ void AStar::aStarSearch(int grid[][COL], Pair src, Pair dest)
   set<pPair> openList;
   openList.insert(make_pair(0.0, make_pair(i, j)));
 
-  bool foundDest = false;
-
   while (!openList.empty())
   {
     pPair p = *openList.begin();
@@ -71,18 +53,16 @@ void AStar::aStarSearch(int grid[][COL], Pair src, Pair dest)
 
     double gNew, hNew, fNew;
 
-    if (isValid(i - 1, j) == true)
+    if (isValid(i - 1, j))
     {
-      if (isDestination(i - 1, j, dest) == true)
+      if (isDestination(i - 1, j, dest))
       {
         cellDetails[i - 1][j].parent_i = i;
         cellDetails[i - 1][j].parent_j = j;
-        printf("The destination cell is found\n");
-        tracePath(cellDetails, dest);
-        foundDest = true;
+        tracePath(dest);
         return;
       }
-      else if (closedList[i - 1][j] == false && isUnBlocked(i - 1, j) == true)
+      else if (closedList[i - 1][j] == false && isUnBlocked(i, j, UP))
       {
         gNew = cellDetails[i][j].g + 1.0;
         hNew = calculateHValue(i - 1, j, dest);
@@ -101,18 +81,16 @@ void AStar::aStarSearch(int grid[][COL], Pair src, Pair dest)
       }
     }
 
-    if (isValid(i + 1, j) == true)
+    if (isValid(i + 1, j))
     {
-      if (isDestination(i + 1, j, dest) == true)
+      if (isDestination(i + 1, j, dest))
       {
         cellDetails[i + 1][j].parent_i = i;
         cellDetails[i + 1][j].parent_j = j;
-        printf("The destination cell is found\n");
-        tracePath(cellDetails, dest);
-        foundDest = true;
+        tracePath(dest);
         return;
       }
-      else if (closedList[i + 1][j] == false && isUnBlocked(i + 1, j) == true)
+      else if (closedList[i + 1][j] == false && isUnBlocked(i, j, DOWN))
       {
         gNew = cellDetails[i][j].g + 1.0;
         hNew = calculateHValue(i + 1, j, dest);
@@ -130,18 +108,16 @@ void AStar::aStarSearch(int grid[][COL], Pair src, Pair dest)
       }
     }
 
-    if (isValid(i, j + 1) == true)
+    if (isValid(i, j + 1))
     {
-      if (isDestination(i, j + 1, dest) == true)
+      if (isDestination(i, j + 1, dest))
       {
         cellDetails[i][j + 1].parent_i = i;
         cellDetails[i][j + 1].parent_j = j;
-        printf("The destination cell is found\n");
-        tracePath(cellDetails, dest);
-        foundDest = true;
+        tracePath(dest);
         return;
       }
-      else if (closedList[i][j + 1] == false && isUnBlocked(i, j + 1) == true)
+      else if (closedList[i][j + 1] == false && isUnBlocked(i, j, RIGHT))
       {
         gNew = cellDetails[i][j].g + 1.0;
         hNew = calculateHValue(i, j + 1, dest);
@@ -160,18 +136,16 @@ void AStar::aStarSearch(int grid[][COL], Pair src, Pair dest)
       }
     }
 
-    if (isValid(i, j - 1) == true)
+    if (isValid(i, j - 1))
     {
-      if (isDestination(i, j - 1, dest) == true)
+      if (isDestination(i, j - 1, dest))
       {
         cellDetails[i][j - 1].parent_i = i;
         cellDetails[i][j - 1].parent_j = j;
-        printf("The destination cell is found\n");
-        tracePath(cellDetails, dest);
-        foundDest = true;
+        tracePath(dest);
         return;
       }
-      else if (closedList[i][j - 1] == false && isUnBlocked(i, j - 1) == true)
+      else if (closedList[i][j - 1] == false && isUnBlocked(i, j, LEFT))
       {
         gNew = cellDetails[i][j].g + 1.0;
         hNew = calculateHValue(i, j - 1, dest);
@@ -191,9 +165,6 @@ void AStar::aStarSearch(int grid[][COL], Pair src, Pair dest)
     }
   }
 
-  if (foundDest == false)
-    printf("Failed to find the Destination Cell\n");
-
   return;
 }
 
@@ -205,7 +176,23 @@ bool AStar::isValid(int row, int col)
 
 bool AStar::isUnBlocked(int row, int col, Direction direction)
 {
-  return false;
+  switch (direction)
+  {
+  case UP:
+    return !maze->mazePoints[row][col].xLine;
+    break;
+  case DOWN:
+    return !maze->mazePoints[row + 1][col].xLine;
+    break;
+  case RIGHT:
+    return !maze->mazePoints[row][col + 1].yLine;
+    break;
+  case LEFT:
+    return !maze->mazePoints[row][col].yLine;
+    break;
+  default:
+    return false;
+  }
 }
 
 bool AStar::isDestination(int row, int col, Pair dest)
@@ -217,13 +204,12 @@ bool AStar::isDestination(int row, int col, Pair dest)
 
 double AStar::calculateHValue(int row, int col, Pair dest)
 {
-  return ((double)sqrt((row - dest.first) * (row - dest.first) +
-                       (col - dest.second) * (col - dest.second)));
+  return (double)sqrt((row - dest.first) * (row - dest.first) +
+                      (col - dest.second) * (col - dest.second));
 }
 
-void AStar::tracePath(Cell cellDetails[][COL], Pair dest)
+void AStar::tracePath(Pair dest)
 {
-  printf("\nThe Path is ");
   int row = dest.first;
   int col = dest.second;
 
@@ -233,6 +219,7 @@ void AStar::tracePath(Cell cellDetails[][COL], Pair dest)
            cellDetails[row][col].parent_j == col))
   {
     Path.push(make_pair(row, col));
+    maze->mazePoints[row][col].isPath = true;
     int temp_row = cellDetails[row][col].parent_i;
     int temp_col = cellDetails[row][col].parent_j;
     row = temp_row;
@@ -246,6 +233,4 @@ void AStar::tracePath(Cell cellDetails[][COL], Pair dest)
     Path.pop();
     printf("-> (%d,%d) ", p.first, p.second);
   }
-
-  return;
 }

@@ -35,6 +35,7 @@ void Maze::initPoints()
   {
     for (int column = 0; column < columns; column++)
     {
+      mazePoints[row][column].isPath = false;
       mazePoints[row][column].isVisited = false;
       mazePoints[row][column].point = new Point(renderer, (column * pointDistance),
                                                 (row * pointDistance), pointColor);
@@ -148,6 +149,16 @@ void Maze::render(int screenWidth, int screenHeight)
 
       if (point.yLine != NULL)
         point.yLine->render(xInitial, yInitial);
+
+      if (point.isPath)
+      {
+        SDL_Rect rect = {xInitial + point.point->x + (pointDistance / 2 - 2),
+                         yInitial + point.point->y + (pointDistance / 2 - 2),
+                         4, 4};
+
+        SDL_SetRenderDrawColor(renderer, 128, 128, 0, 255);
+        SDL_RenderFillRect(renderer, &rect);
+      }
     }
   }
 }
