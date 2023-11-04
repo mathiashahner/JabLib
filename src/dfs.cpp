@@ -37,27 +37,28 @@ MazePoint *DFS::getUnvisitedNeighbour(MazePoint *point)
 
     int x = point->point->x;
     int y = point->point->y;
+    int pd = maze->pointDistance;
 
     switch (direction)
     {
     case UP:
-      y = point->point->y - maze->pointDistance;
+      y = point->point->y - pd;
       break;
     case DOWN:
-      y = point->point->y + maze->pointDistance;
+      y = point->point->y + pd;
       break;
     case LEFT:
-      x = point->point->x - maze->pointDistance;
+      x = point->point->x - pd;
       break;
     case RIGHT:
-      x = point->point->x + maze->pointDistance;
+      x = point->point->x + pd;
       break;
     }
 
-    if (x >= 0 && x < ((maze->columns - 1) * maze->pointDistance) &&
-        y >= 0 && y < ((maze->rows - 1) * maze->pointDistance))
+    if (x >= 0 && x < ((maze->columns - 1) * pd) &&
+        y >= 0 && y < ((maze->rows - 1) * pd))
     {
-      MazePoint *neighbour = &maze->mazePoints[y / maze->pointDistance][x / maze->pointDistance];
+      MazePoint *neighbour = &maze->mazePoints[y / pd][x / pd];
 
       if (!neighbour->isVisited)
         return neighbour;
