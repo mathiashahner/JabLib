@@ -1,6 +1,7 @@
 #include <time.h>
 #include <maze.h>
 #include <dfs.h>
+#include <astar.h>
 
 Maze::Maze(SDL_Renderer *renderer, int rows, int columns)
 {
@@ -8,6 +9,7 @@ Maze::Maze(SDL_Renderer *renderer, int rows, int columns)
   this->columns = columns + 1;
   this->renderer = renderer;
   this->isGenerating = false;
+  this->hideExplored = false;
   this->pointDistance = 20;
   this->delay = 50;
 
@@ -37,6 +39,7 @@ void Maze::initPoints()
     {
       mazePoints[row][column].isPath = false;
       mazePoints[row][column].isVisited = false;
+      mazePoints[row][column].isExplored = false;
       mazePoints[row][column].point = new Point(renderer, (column * pointDistance),
                                                 (row * pointDistance), pointColor);
     }
@@ -150,14 +153,18 @@ void Maze::render(int screenWidth, int screenHeight)
       if (point.yLine != NULL)
         point.yLine->render(xInitial, yInitial);
 
+      if (!hideExplored && point.isExplored)
+      {
+        Circle *circle = new Circle(renderer, point.point->x + pointDistance / 2,
+                                    point.point->y + pointDistance / 2, pointDistance / 14, 0xFFFF00FF);
+        circle->render(xInitial, yInitial);
+      }
+
       if (point.isPath)
       {
-        SDL_Rect rect = {xInitial + point.point->x + (pointDistance / 2 - 2),
-                         yInitial + point.point->y + (pointDistance / 2 - 2),
-                         4, 4};
-
-        SDL_SetRenderDrawColor(renderer, 128, 128, 0, 255);
-        SDL_RenderFillRect(renderer, &rect);
+        Circle *circle = new Circle(renderer, point.point->x + pointDistance / 2,
+                                    point.point->y + pointDistance / 2, pointDistance / 7, 0xFFFF00FF);
+        circle->render(xInitial, yInitial);
       }
     }
   }
@@ -234,4 +241,18 @@ void Maze::resizeMaze(ResizeOption option)
 
   initPoints();
   initLines();
+}
+void Maze::toggleHideExplored()
+{
+  hideExplored = !hideExplored;
+}
+
+void Maze::solve()
+{
+  isGenerating = true;
+
+  AStar *aStar = new AStar(this);
+  aStar->aStarSearch(make_pair(0, 0), make_pair(rows - 2, columns - 2));
+
+  isGenerating = false;
 }

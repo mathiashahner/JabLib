@@ -3,6 +3,7 @@
 
 #include <line.h>
 #include <point.h>
+#include <circle.h>
 #include <SDL2/SDL.h>
 
 typedef enum Direction
@@ -27,6 +28,7 @@ typedef struct MazePoint
   Line *yLine;
   Point *point;
   bool isPath;
+  bool isExplored;
   bool isVisited;
 } MazePoint;
 
@@ -44,6 +46,7 @@ public:
   MazePoint **mazePoints;
 
   void reset();
+  void solve();
   void generate();
   void render(int screenWidth, int screenHeight);
   void decreaseDelay();
@@ -52,6 +55,7 @@ public:
   void increasePointDistance();
   void resizeMaze(ResizeOption option);
   void removeWall(MazePoint *point, MazePoint *neighbour);
+  void toggleHideExplored();
 
 private:
   const int xOffset = 240;
@@ -59,6 +63,7 @@ private:
   const int pointColor = 0xAA00AAFF;
   const int lineColor = 0xAA00AAFF;
 
+  bool hideExplored;
   SDL_Renderer *renderer;
 
   void initPoints();

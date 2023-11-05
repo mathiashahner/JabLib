@@ -49,11 +49,16 @@ void AStar::aStarSearch(Pair src, Pair dest)
 
     i = p.second.first;
     j = p.second.second;
+
     closedList[i][j] = true;
+    maze->mazePoints[i][j].isExplored = true;
+
+    if (maze->delay > 0)
+      SDL_Delay(maze->delay);
 
     double gNew, hNew, fNew;
 
-    if (isValid(i - 1, j))
+    if (isValid(i - 1, j) && isUnBlocked(i, j, UP))
     {
       if (isDestination(i - 1, j, dest))
       {
@@ -62,7 +67,7 @@ void AStar::aStarSearch(Pair src, Pair dest)
         tracePath(dest);
         return;
       }
-      else if (closedList[i - 1][j] == false && isUnBlocked(i, j, UP))
+      else if (closedList[i - 1][j] == false)
       {
         gNew = cellDetails[i][j].g + 1.0;
         hNew = calculateHValue(i - 1, j, dest);
@@ -81,7 +86,7 @@ void AStar::aStarSearch(Pair src, Pair dest)
       }
     }
 
-    if (isValid(i + 1, j))
+    if (isValid(i + 1, j) && isUnBlocked(i, j, DOWN))
     {
       if (isDestination(i + 1, j, dest))
       {
@@ -90,7 +95,7 @@ void AStar::aStarSearch(Pair src, Pair dest)
         tracePath(dest);
         return;
       }
-      else if (closedList[i + 1][j] == false && isUnBlocked(i, j, DOWN))
+      else if (closedList[i + 1][j] == false)
       {
         gNew = cellDetails[i][j].g + 1.0;
         hNew = calculateHValue(i + 1, j, dest);
@@ -108,7 +113,7 @@ void AStar::aStarSearch(Pair src, Pair dest)
       }
     }
 
-    if (isValid(i, j + 1))
+    if (isValid(i, j + 1) && isUnBlocked(i, j, RIGHT))
     {
       if (isDestination(i, j + 1, dest))
       {
@@ -117,7 +122,7 @@ void AStar::aStarSearch(Pair src, Pair dest)
         tracePath(dest);
         return;
       }
-      else if (closedList[i][j + 1] == false && isUnBlocked(i, j, RIGHT))
+      else if (closedList[i][j + 1] == false)
       {
         gNew = cellDetails[i][j].g + 1.0;
         hNew = calculateHValue(i, j + 1, dest);
@@ -136,7 +141,7 @@ void AStar::aStarSearch(Pair src, Pair dest)
       }
     }
 
-    if (isValid(i, j - 1))
+    if (isValid(i, j - 1) && isUnBlocked(i, j, LEFT))
     {
       if (isDestination(i, j - 1, dest))
       {
@@ -145,7 +150,7 @@ void AStar::aStarSearch(Pair src, Pair dest)
         tracePath(dest);
         return;
       }
-      else if (closedList[i][j - 1] == false && isUnBlocked(i, j, LEFT))
+      else if (closedList[i][j - 1] == false)
       {
         gNew = cellDetails[i][j].g + 1.0;
         hNew = calculateHValue(i, j - 1, dest);
@@ -213,24 +218,19 @@ void AStar::tracePath(Pair dest)
   int row = dest.first;
   int col = dest.second;
 
-  stack<Pair> Path;
+  maze->mazePoints[0][0].isPath = true;
 
   while (!(cellDetails[row][col].parent_i == row &&
            cellDetails[row][col].parent_j == col))
   {
-    Path.push(make_pair(row, col));
     maze->mazePoints[row][col].isPath = true;
+
+    if (maze->delay > 0)
+      SDL_Delay(maze->delay);
+
     int temp_row = cellDetails[row][col].parent_i;
     int temp_col = cellDetails[row][col].parent_j;
     row = temp_row;
     col = temp_col;
-  }
-
-  Path.push(make_pair(row, col));
-  while (!Path.empty())
-  {
-    pair<int, int> p = Path.top();
-    Path.pop();
-    printf("-> (%d,%d) ", p.first, p.second);
   }
 }

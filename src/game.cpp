@@ -1,5 +1,4 @@
 #include <game.h>
-#include <astar.h>
 
 Game::Game()
 {
@@ -45,6 +44,13 @@ void Game::clean()
   SDL_Quit();
 }
 
+int mazeSolveWrapper(void *param)
+{
+  Maze *maze = (Maze *)param;
+  maze->solve();
+  return 0;
+}
+
 int mazeGenerateWrapper(void *param)
 {
   Maze *maze = (Maze *)param;
@@ -69,6 +75,9 @@ void Game::handleEvents()
   case SDL_KEYDOWN:
     switch (event.key.keysym.sym)
     {
+    case SDLK_f:
+      thread = SDL_CreateThread(mazeSolveWrapper, "MazeThread", (void *)maze);
+      break;
     case SDLK_g:
       thread = SDL_CreateThread(mazeGenerateWrapper, "MazeThread", (void *)maze);
       break;
@@ -77,6 +86,9 @@ void Game::handleEvents()
       break;
     case SDLK_e:
       isRunning = false;
+      break;
+    case SDLK_h:
+      maze->toggleHideExplored();
       break;
     case SDLK_1:
       maze->decreasePointDistance();
@@ -90,12 +102,6 @@ void Game::handleEvents()
     case SDLK_4:
       maze->decreaseDelay();
       break;
-    case SDLK_5:
-    {
-      AStar *aStar = new AStar(maze);
-      aStar->aStarSearch(make_pair(0, 0), make_pair(maze->rows - 2, maze->columns - 2));
-    }
-    break;
     case SDLK_w:
     case SDLK_UP:
       maze->resizeMaze(ADD_ROW);
