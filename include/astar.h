@@ -4,7 +4,6 @@
 #include <set>
 #include <stack>
 #include <maze.h>
-#include <point.h>
 #include <iostream>
 
 using namespace std;
@@ -14,7 +13,8 @@ typedef pair<double, pair<int, int>> pPair;
 
 struct Cell
 {
-  int parent_i, parent_j;
+  int parent_i;
+  int parent_j;
   double f, g, h;
 };
 

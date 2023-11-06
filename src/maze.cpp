@@ -37,9 +37,9 @@ void Maze::initPoints()
   {
     for (int column = 0; column < columns; column++)
     {
-      mazePoints[row][column].isPath = false;
       mazePoints[row][column].isVisited = false;
-      mazePoints[row][column].isExplored = false;
+      mazePoints[row][column].pathCircle = NULL;
+      mazePoints[row][column].exploredCircle = NULL;
       mazePoints[row][column].point = new Point(renderer, (column * pointDistance),
                                                 (row * pointDistance), pointColor);
     }
@@ -83,12 +83,12 @@ void Maze::initLines()
 
 void Maze::generate()
 {
-  isGenerating = true;
+  toggleIsGenerating();
 
   DFS *dfs = new DFS(this);
   dfs->depthFirstSearch(&mazePoints[0][0]);
 
-  isGenerating = false;
+  toggleIsGenerating();
 }
 
 void Maze::removeWall(MazePoint *point, MazePoint *neighbour)
@@ -143,29 +143,21 @@ void Maze::render(int screenWidth, int screenHeight)
   {
     for (int column = 0; column < columns; column++)
     {
-      MazePoint point = mazePoints[row][column];
+      MazePoint *point = &mazePoints[row][column];
 
-      point.point->render(xInitial, yInitial);
+      point->point->render(xInitial, yInitial);
 
-      if (point.xLine != NULL)
-        point.xLine->render(xInitial, yInitial);
+      if (point->xLine != NULL)
+        point->xLine->render(xInitial, yInitial);
 
-      if (point.yLine != NULL)
-        point.yLine->render(xInitial, yInitial);
+      if (point->yLine != NULL)
+        point->yLine->render(xInitial, yInitial);
 
-      if (!hideExplored && point.isExplored)
-      {
-        Circle *circle = new Circle(renderer, point.point->x + pointDistance / 2,
-                                    point.point->y + pointDistance / 2, pointDistance / 14, 0xFFFF00FF);
-        circle->render(xInitial, yInitial);
-      }
+      if (!hideExplored && point->exploredCircle)
+        point->exploredCircle->render(xInitial, yInitial);
 
-      if (point.isPath)
-      {
-        Circle *circle = new Circle(renderer, point.point->x + pointDistance / 2,
-                                    point.point->y + pointDistance / 2, pointDistance / 7, 0xFFFF00FF);
-        circle->render(xInitial, yInitial);
-      }
+      if (point->pathCircle)
+        point->pathCircle->render(xInitial, yInitial);
     }
   }
 }
@@ -174,9 +166,18 @@ void Maze::deleteMazePoints()
 {
   for (int row = 0; row < rows; row++)
   {
+    for (int column = 0; column < columns; column++)
+    {
+      MazePoint *point = &mazePoints[row][column];
+
+      delete point->point;
+      delete point->xLine;
+      delete point->yLine;
+      delete point->pathCircle;
+      delete point->exploredCircle;
+    }
     delete[] mazePoints[row];
   }
-
   delete[] mazePoints;
 }
 
@@ -242,17 +243,42 @@ void Maze::resizeMaze(ResizeOption option)
   initPoints();
   initLines();
 }
+
 void Maze::toggleHideExplored()
 {
   hideExplored = !hideExplored;
 }
 
+void Maze::toggleIsGenerating()
+{
+  isGenerating = !isGenerating;
+}
+
 void Maze::solve()
 {
-  isGenerating = true;
+  Pair src = make_pair(0, 0);
+  Pair dest = make_pair(rows - 2, columns - 2);
+
+  buildPathCircle(&mazePoints[src.first][src.second]);
+  buildPathCircle(&mazePoints[dest.first][dest.second]);
+
+  toggleIsGenerating();
 
   AStar *aStar = new AStar(this);
-  aStar->aStarSearch(make_pair(0, 0), make_pair(rows - 2, columns - 2));
+  aStar->aStarSearch(src, dest);
+  delete aStar;
 
-  isGenerating = false;
+  toggleIsGenerating();
+}
+
+void Maze::buildPathCircle(MazePoint *point)
+{
+  point->pathCircle = new Circle(renderer, point->point->x + pointDistance / 2,
+                                 point->point->y + pointDistance / 2, pointDistance / 6, pathCircleColor);
+}
+
+void Maze::buildExploredCircle(MazePoint *point)
+{
+  point->exploredCircle = new Circle(renderer, point->point->x + pointDistance / 2,
+                                     point->point->y + pointDistance / 2, pointDistance / 12, exploredCircleColor);
 }

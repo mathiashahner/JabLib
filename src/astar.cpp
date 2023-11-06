@@ -51,7 +51,7 @@ void AStar::aStarSearch(Pair src, Pair dest)
     j = p.second.second;
 
     closedList[i][j] = true;
-    maze->mazePoints[i][j].isExplored = true;
+    maze->buildExploredCircle(&maze->mazePoints[i][j]);
 
     if (maze->delay > 0)
       SDL_Delay(maze->delay);
@@ -209,8 +209,8 @@ bool AStar::isDestination(int row, int col, Pair dest)
 
 double AStar::calculateHValue(int row, int col, Pair dest)
 {
-  return (double)sqrt((row - dest.first) * (row - dest.first) +
-                      (col - dest.second) * (col - dest.second));
+  return sqrt((row - dest.first) * (row - dest.first) +
+              (col - dest.second) * (col - dest.second));
 }
 
 void AStar::tracePath(Pair dest)
@@ -218,12 +218,10 @@ void AStar::tracePath(Pair dest)
   int row = dest.first;
   int col = dest.second;
 
-  maze->mazePoints[0][0].isPath = true;
-
   while (!(cellDetails[row][col].parent_i == row &&
            cellDetails[row][col].parent_j == col))
   {
-    maze->mazePoints[row][col].isPath = true;
+    maze->buildPathCircle(&maze->mazePoints[row][col]);
 
     if (maze->delay > 0)
       SDL_Delay(maze->delay);

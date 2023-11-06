@@ -27,8 +27,8 @@ typedef struct MazePoint
   Line *xLine;
   Line *yLine;
   Point *point;
-  bool isPath;
-  bool isExplored;
+  Circle *pathCircle;
+  Circle *exploredCircle;
   bool isVisited;
 } MazePoint;
 
@@ -56,12 +56,16 @@ public:
   void resizeMaze(ResizeOption option);
   void removeWall(MazePoint *point, MazePoint *neighbour);
   void toggleHideExplored();
+  void buildPathCircle(MazePoint *point);
+  void buildExploredCircle(MazePoint *point);
 
 private:
   const int xOffset = 240;
   const int yOffset = 0;
-  const int pointColor = 0xAA00AAFF;
   const int lineColor = 0xAA00AAFF;
+  const int pointColor = 0xAA00AAFF;
+  const int pathCircleColor = 0xFFFF00FF;
+  const int exploredCircleColor = 0x00FFFFFF;
 
   bool hideExplored;
   SDL_Renderer *renderer;
@@ -69,6 +73,7 @@ private:
   void initPoints();
   void initLines();
   void deleteMazePoints();
+  void toggleIsGenerating();
 };
 
 #endif
