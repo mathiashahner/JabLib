@@ -4,7 +4,6 @@
 #include <line.h>
 #include <point.h>
 #include <circle.h>
-#include <SDL2/SDL.h>
 
 typedef enum Direction
 {
@@ -62,6 +61,7 @@ public:
 private:
   const int xOffset = 240;
   const int yOffset = 0;
+  const int delayStep = 5;
   const int lineColor = 0xAA00AAFF;
   const int pointColor = 0xAA00AAFF;
   const int pathCircleColor = 0xFFFF00FF;

@@ -1,4 +1,3 @@
-#include <time.h>
 #include <maze.h>
 #include <dfs.h>
 #include <astar.h>
@@ -12,8 +11,6 @@ Maze::Maze(SDL_Renderer *renderer, int rows, int columns)
   this->hideExplored = false;
   this->pointDistance = 20;
   this->delay = 50;
-
-  srand(time(NULL));
 
   initPoints();
   initLines();
@@ -191,13 +188,13 @@ void Maze::reset()
 void Maze::decreaseDelay()
 {
   if (delay > 0)
-    delay -= 10;
+    delay -= delayStep;
 }
 
 void Maze::increaseDelay()
 {
   if (delay < 100)
-    delay += 10;
+    delay += delayStep;
 }
 
 void Maze::decreasePointDistance()

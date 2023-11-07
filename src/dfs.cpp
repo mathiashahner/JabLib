@@ -1,8 +1,11 @@
 #include <dfs.h>
+#include <time.h>
 
 DFS::DFS(Maze *maze)
 {
   this->maze = maze;
+
+  srand(time(NULL));
 }
 
 void DFS::depthFirstSearch(MazePoint *point)
