@@ -63,7 +63,7 @@ void Game::handleEvents()
   SDL_Event event;
 
   if (maze->isGenerating)
-    SDL_PollEvent(&event);
+    SDL_WaitEventTimeout(&event, frameDelay);
   else
     SDL_WaitEvent(&event);
 
@@ -126,19 +126,4 @@ void Game::handleEvents()
 bool Game::running()
 {
   return isRunning;
-}
-
-void Game::setFrameStart()
-{
-  frameStart = SDL_GetTicks();
-}
-
-void Game::delay()
-{
-  int frameTime = SDL_GetTicks() - frameStart;
-
-  if (frameDelay > frameTime)
-  {
-    SDL_Delay(frameDelay - frameTime);
-  }
 }

@@ -7,11 +7,9 @@ int main(int argc, char *argv[])
 
   while (game->running())
   {
-    game->setFrameStart();
     game->handleEvents();
     game->update();
     game->render();
-    game->delay();
   }
 
   game->clean();

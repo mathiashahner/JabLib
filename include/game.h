@@ -3,10 +3,7 @@
 
 #include <maze.h>
 #include <info.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
 
 class Game
 {
@@ -18,8 +15,6 @@ public:
   void update();
   void clean();
   void handleEvents();
-  void setFrameStart();
-  void delay();
 
   bool running();
 
@@ -31,7 +26,6 @@ private:
   Info *info;
 
   bool isRunning;
-  Uint32 frameStart;
   SDL_Window *window;
   SDL_Renderer *renderer;
   SDL_Thread *thread;
