@@ -5,6 +5,13 @@ AStar::AStar(Maze *maze)
   this->maze = maze;
 }
 
+AStar::~AStar()
+{
+  for (int row = 0; row < maze->rows - 1; row++)
+    delete[] cellDetails[row];
+  delete[] cellDetails;
+}
+
 void AStar::aStarSearch(Pair src, Pair dest)
 {
   bool closedList[maze->rows - 1][maze->columns - 1];
@@ -17,29 +24,29 @@ void AStar::aStarSearch(Pair src, Pair dest)
     cellDetails[row] = new Cell[maze->columns - 1];
   }
 
-  int i, j;
+  int row, col;
 
-  for (i = 0; i < maze->rows - 1; i++)
+  for (row = 0; row < maze->rows - 1; row++)
   {
-    for (j = 0; j < maze->columns - 1; j++)
+    for (col = 0; col < maze->columns - 1; col++)
     {
-      cellDetails[i][j].f = FLT_MAX;
-      cellDetails[i][j].g = FLT_MAX;
-      cellDetails[i][j].h = FLT_MAX;
-      cellDetails[i][j].parent_i = -1;
-      cellDetails[i][j].parent_j = -1;
+      cellDetails[row][col].f = FLT_MAX;
+      cellDetails[row][col].g = FLT_MAX;
+      cellDetails[row][col].h = FLT_MAX;
+      cellDetails[row][col].parentRow = -1;
+      cellDetails[row][col].parentCol = -1;
     }
   }
 
-  i = src.first, j = src.second;
-  cellDetails[i][j].f = 0.0;
-  cellDetails[i][j].g = 0.0;
-  cellDetails[i][j].h = 0.0;
-  cellDetails[i][j].parent_i = i;
-  cellDetails[i][j].parent_j = j;
+  row = src.first, col = src.second;
+  cellDetails[row][col].f = 0.0;
+  cellDetails[row][col].g = 0.0;
+  cellDetails[row][col].h = 0.0;
+  cellDetails[row][col].parentRow = row;
+  cellDetails[row][col].parentCol = col;
 
   set<pPair> openList;
-  openList.insert(make_pair(0.0, make_pair(i, j)));
+  openList.insert(make_pair(0.0, make_pair(row, col)));
 
   while (!openList.empty())
   {
@@ -47,124 +54,124 @@ void AStar::aStarSearch(Pair src, Pair dest)
 
     openList.erase(openList.begin());
 
-    i = p.second.first;
-    j = p.second.second;
+    row = p.second.first;
+    col = p.second.second;
 
-    closedList[i][j] = true;
-    maze->buildExploredCircle(&maze->mazePoints[i][j]);
+    closedList[row][col] = true;
+    maze->buildExploredCircle(&maze->mazePoints[row][col]);
 
     if (maze->delay > 0)
       SDL_Delay(maze->delay);
 
     double gNew, hNew, fNew;
 
-    if (isValid(i - 1, j) && isUnBlocked(i, j, UP))
+    if (isValid(row - 1, col) && isUnBlocked(row, col, UP))
     {
-      if (isDestination(i - 1, j, dest))
+      if (isDestination(row - 1, col, dest))
       {
-        cellDetails[i - 1][j].parent_i = i;
-        cellDetails[i - 1][j].parent_j = j;
+        cellDetails[row - 1][col].parentRow = row;
+        cellDetails[row - 1][col].parentCol = col;
         tracePath(dest);
         return;
       }
-      else if (closedList[i - 1][j] == false)
+      else if (closedList[row - 1][col] == false)
       {
-        gNew = cellDetails[i][j].g + 1.0;
-        hNew = calculateHValue(i - 1, j, dest);
+        gNew = cellDetails[row][col].g + 1.0;
+        hNew = calculateHValue(row - 1, col, dest);
         fNew = gNew + hNew;
 
-        if (cellDetails[i - 1][j].f == FLT_MAX || cellDetails[i - 1][j].f > fNew)
+        if (cellDetails[row - 1][col].f == FLT_MAX || cellDetails[row - 1][col].f > fNew)
         {
-          openList.insert(make_pair(fNew, make_pair(i - 1, j)));
+          openList.insert(make_pair(fNew, make_pair(row - 1, col)));
 
-          cellDetails[i - 1][j].f = fNew;
-          cellDetails[i - 1][j].g = gNew;
-          cellDetails[i - 1][j].h = hNew;
-          cellDetails[i - 1][j].parent_i = i;
-          cellDetails[i - 1][j].parent_j = j;
+          cellDetails[row - 1][col].f = fNew;
+          cellDetails[row - 1][col].g = gNew;
+          cellDetails[row - 1][col].h = hNew;
+          cellDetails[row - 1][col].parentRow = row;
+          cellDetails[row - 1][col].parentCol = col;
         }
       }
     }
 
-    if (isValid(i + 1, j) && isUnBlocked(i, j, DOWN))
+    if (isValid(row + 1, col) && isUnBlocked(row, col, DOWN))
     {
-      if (isDestination(i + 1, j, dest))
+      if (isDestination(row + 1, col, dest))
       {
-        cellDetails[i + 1][j].parent_i = i;
-        cellDetails[i + 1][j].parent_j = j;
+        cellDetails[row + 1][col].parentRow = row;
+        cellDetails[row + 1][col].parentCol = col;
         tracePath(dest);
         return;
       }
-      else if (closedList[i + 1][j] == false)
+      else if (closedList[row + 1][col] == false)
       {
-        gNew = cellDetails[i][j].g + 1.0;
-        hNew = calculateHValue(i + 1, j, dest);
+        gNew = cellDetails[row][col].g + 1.0;
+        hNew = calculateHValue(row + 1, col, dest);
         fNew = gNew + hNew;
 
-        if (cellDetails[i + 1][j].f == FLT_MAX || cellDetails[i + 1][j].f > fNew)
+        if (cellDetails[row + 1][col].f == FLT_MAX || cellDetails[row + 1][col].f > fNew)
         {
-          openList.insert(make_pair(fNew, make_pair(i + 1, j)));
-          cellDetails[i + 1][j].f = fNew;
-          cellDetails[i + 1][j].g = gNew;
-          cellDetails[i + 1][j].h = hNew;
-          cellDetails[i + 1][j].parent_i = i;
-          cellDetails[i + 1][j].parent_j = j;
+          openList.insert(make_pair(fNew, make_pair(row + 1, col)));
+          cellDetails[row + 1][col].f = fNew;
+          cellDetails[row + 1][col].g = gNew;
+          cellDetails[row + 1][col].h = hNew;
+          cellDetails[row + 1][col].parentRow = row;
+          cellDetails[row + 1][col].parentCol = col;
         }
       }
     }
 
-    if (isValid(i, j + 1) && isUnBlocked(i, j, RIGHT))
+    if (isValid(row, col + 1) && isUnBlocked(row, col, RIGHT))
     {
-      if (isDestination(i, j + 1, dest))
+      if (isDestination(row, col + 1, dest))
       {
-        cellDetails[i][j + 1].parent_i = i;
-        cellDetails[i][j + 1].parent_j = j;
+        cellDetails[row][col + 1].parentRow = row;
+        cellDetails[row][col + 1].parentCol = col;
         tracePath(dest);
         return;
       }
-      else if (closedList[i][j + 1] == false)
+      else if (closedList[row][col + 1] == false)
       {
-        gNew = cellDetails[i][j].g + 1.0;
-        hNew = calculateHValue(i, j + 1, dest);
+        gNew = cellDetails[row][col].g + 1.0;
+        hNew = calculateHValue(row, col + 1, dest);
         fNew = gNew + hNew;
 
-        if (cellDetails[i][j + 1].f == FLT_MAX || cellDetails[i][j + 1].f > fNew)
+        if (cellDetails[row][col + 1].f == FLT_MAX || cellDetails[row][col + 1].f > fNew)
         {
-          openList.insert(make_pair(fNew, make_pair(i, j + 1)));
+          openList.insert(make_pair(fNew, make_pair(row, col + 1)));
 
-          cellDetails[i][j + 1].f = fNew;
-          cellDetails[i][j + 1].g = gNew;
-          cellDetails[i][j + 1].h = hNew;
-          cellDetails[i][j + 1].parent_i = i;
-          cellDetails[i][j + 1].parent_j = j;
+          cellDetails[row][col + 1].f = fNew;
+          cellDetails[row][col + 1].g = gNew;
+          cellDetails[row][col + 1].h = hNew;
+          cellDetails[row][col + 1].parentRow = row;
+          cellDetails[row][col + 1].parentCol = col;
         }
       }
     }
 
-    if (isValid(i, j - 1) && isUnBlocked(i, j, LEFT))
+    if (isValid(row, col - 1) && isUnBlocked(row, col, LEFT))
     {
-      if (isDestination(i, j - 1, dest))
+      if (isDestination(row, col - 1, dest))
       {
-        cellDetails[i][j - 1].parent_i = i;
-        cellDetails[i][j - 1].parent_j = j;
+        cellDetails[row][col - 1].parentRow = row;
+        cellDetails[row][col - 1].parentCol = col;
         tracePath(dest);
         return;
       }
-      else if (closedList[i][j - 1] == false)
+      else if (closedList[row][col - 1] == false)
       {
-        gNew = cellDetails[i][j].g + 1.0;
-        hNew = calculateHValue(i, j - 1, dest);
+        gNew = cellDetails[row][col].g + 1.0;
+        hNew = calculateHValue(row, col - 1, dest);
         fNew = gNew + hNew;
 
-        if (cellDetails[i][j - 1].f == FLT_MAX || cellDetails[i][j - 1].f > fNew)
+        if (cellDetails[row][col - 1].f == FLT_MAX || cellDetails[row][col - 1].f > fNew)
         {
-          openList.insert(make_pair(fNew, make_pair(i, j - 1)));
+          openList.insert(make_pair(fNew, make_pair(row, col - 1)));
 
-          cellDetails[i][j - 1].f = fNew;
-          cellDetails[i][j - 1].g = gNew;
-          cellDetails[i][j - 1].h = hNew;
-          cellDetails[i][j - 1].parent_i = i;
-          cellDetails[i][j - 1].parent_j = j;
+          cellDetails[row][col - 1].f = fNew;
+          cellDetails[row][col - 1].g = gNew;
+          cellDetails[row][col - 1].h = hNew;
+          cellDetails[row][col - 1].parentRow = row;
+          cellDetails[row][col - 1].parentCol = col;
         }
       }
     }
@@ -218,16 +225,16 @@ void AStar::tracePath(Pair dest)
   int row = dest.first;
   int col = dest.second;
 
-  while (!(cellDetails[row][col].parent_i == row &&
-           cellDetails[row][col].parent_j == col))
+  while (!(cellDetails[row][col].parentRow == row &&
+           cellDetails[row][col].parentCol == col))
   {
     maze->buildPathCircle(&maze->mazePoints[row][col]);
 
     if (maze->delay > 0)
       SDL_Delay(maze->delay);
 
-    int temp_row = cellDetails[row][col].parent_i;
-    int temp_col = cellDetails[row][col].parent_j;
+    int temp_row = cellDetails[row][col].parentRow;
+    int temp_col = cellDetails[row][col].parentCol;
     row = temp_row;
     col = temp_col;
   }

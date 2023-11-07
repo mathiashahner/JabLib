@@ -13,8 +13,8 @@ typedef pair<double, pair<int, int>> pPair;
 
 struct Cell
 {
-  int parent_i;
-  int parent_j;
+  int parentRow;
+  int parentCol;
   double f, g, h;
 };
 
@@ -22,6 +22,7 @@ class AStar
 {
 public:
   AStar(Maze *maze);
+  ~AStar();
 
   void aStarSearch(Pair src, Pair dest);
 

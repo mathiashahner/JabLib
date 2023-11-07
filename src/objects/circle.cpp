@@ -13,11 +13,6 @@ Circle::Circle(SDL_Renderer *renderer, int x, int y, int radius, Uint32 color)
   this->color.a = color & 0xFF;
 }
 
-int roundUpToMultipleOfEight(int v)
-{
-  return (v + (8 - 1)) & -8;
-}
-
 void Circle::render(int xOffset, int yOffset)
 {
   int status = 0;
