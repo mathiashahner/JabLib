@@ -4,6 +4,7 @@
 #include <line.h>
 #include <point.h>
 #include <circle.h>
+#include <memory>
 
 typedef enum Direction
 {

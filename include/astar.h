@@ -30,6 +30,7 @@ private:
   Maze *maze;
   Cell **cellDetails;
 
+  void initCellDetails();
   bool isValid(int row, int col);
   bool isUnBlocked(int row, int col, Direction direction);
   bool isDestination(int row, int col, Pair dest);

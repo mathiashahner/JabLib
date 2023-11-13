@@ -261,9 +261,8 @@ void Maze::solve()
 
   toggleIsGenerating();
 
-  AStar *aStar = new AStar(this);
+  unique_ptr<AStar> aStar = make_unique<AStar>(this);
   aStar->aStarSearch(src, dest);
-  delete aStar;
 
   toggleIsGenerating();
 }
