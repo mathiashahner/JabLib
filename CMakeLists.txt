@@ -1,7 +1,5 @@
-cmake_minimum_required(VERSION 3.0.0)
+cmake_minimum_required(VERSION 3.10.0)
 project(maze-builder VERSION 0.1.0 LANGUAGES C CXX)
-
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
 file(GLOB SOURCES
   src/*.cpp
@@ -30,5 +28,5 @@ target_include_directories(
 target_link_libraries(
   ${PROJECT_NAME}
   ${SDL2_LIBRARIES}
-  ${SDL2_TTF_LIBRARIES}
+  SDL2_ttf::SDL2_ttf
 )

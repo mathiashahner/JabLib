@@ -1,4 +1,7 @@
+#include <math.h>
 #include <astar.h>
+#include <float.h>
+#include <string.h>
 
 AStar::AStar(Maze *maze)
 {
