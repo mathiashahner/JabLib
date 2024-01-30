@@ -4,5 +4,7 @@ A random maze generator
 
 ### Getting started:
 
-- A C++ compiler must be installed;
-- The "make" command must be available.
+- C++ compiler;
+- CMake
+- SDL2: https://github.com/libsdl-org/SDL/releases
+- SDL2_ttf: https://github.com/libsdl-org/SDL_ttf/releases

@@ -1,16 +1,16 @@
 #include <maze.h>
-
-#define MAX(a, b) ((a) > (b) ? (a) : (b))
-#define MIN(a, b) ((a) < (b) ? (a) : (b))
+#include <dfs.h>
+#include <astar.h>
 
 Maze::Maze(SDL_Renderer *renderer, int rows, int columns)
 {
-  this->rows = rows;
-  this->columns = columns;
+  this->rows = rows + 1;
+  this->columns = columns + 1;
   this->renderer = renderer;
-  this->hasConflicts = true;
-
-  srand(time(NULL));
+  this->isGenerating = false;
+  this->hideExplored = false;
+  this->pointDistance = 20;
+  this->delay = 50;
 
   initPoints();
   initLines();
@@ -18,12 +18,7 @@ Maze::Maze(SDL_Renderer *renderer, int rows, int columns)
 
 Maze::~Maze()
 {
-  for (int row = 0; row < rows; row++)
-  {
-    delete[] mazePoints[row];
-  }
-
-  delete[] mazePoints;
+  deleteMazePoints();
 }
 
 void Maze::initPoints()
@@ -39,9 +34,11 @@ void Maze::initPoints()
   {
     for (int column = 0; column < columns; column++)
     {
-      mazePoints[row][column].rect = new Rect(renderer, (column * rectDistance) + rectWidth,
-                                              (row * rectDistance) + rectHeight,
-                                              rectWidth, rectHeight, rectColor);
+      mazePoints[row][column].isVisited = false;
+      mazePoints[row][column].pathCircle = NULL;
+      mazePoints[row][column].exploredCircle = NULL;
+      mazePoints[row][column].point = new Point(renderer, (column * pointDistance),
+                                                (row * pointDistance), pointColor);
     }
   }
 }
@@ -52,134 +49,232 @@ void Maze::initLines()
   {
     for (int column = 0; column < columns; column++)
     {
-      int randomRow = getRandomNumber(rows - 1);
-      int randomColumn = getRandomNumber(columns - 1);
+      Point *origin = mazePoints[row][column].point;
 
-      mazePoints[row][column].line = new Line(renderer,
-                                              mazePoints[row][column].rect->x,
-                                              mazePoints[row][column].rect->y,
-                                              mazePoints[randomRow][randomColumn].rect->x,
-                                              mazePoints[randomRow][randomColumn].rect->y,
-                                              lineColor);
-    }
-  }
-}
-
-void Maze::update()
-{
-  if (hasConflicts)
-  {
-    for (int row = 0; row < rows; row++)
-    {
-      for (int column = 0; column < columns; column++)
+      if (column < columns - 1)
       {
-        MazePoint mazePoint = mazePoints[row][column];
+        Point *xDestiny = mazePoints[row][column + 1].point;
 
-        if (verifyConflicts(mazePoint.line))
-        {
-          int newRow = getRandomNumber(rows - 1);
-          int newColumn = getRandomNumber(columns - 1);
+        mazePoints[row][column].xLine = new Line(renderer, origin->x, origin->y,
+                                                 xDestiny->x, xDestiny->y, lineColor);
+      }
+      else
+      {
+        mazePoints[row][column].xLine = NULL;
+      }
 
-          // if (row == 0)
-          // {
-          //   newRow = row + 1;
-          //   newColumn = column;
-          // }
+      if (row < rows - 1)
+      {
+        Point *yDestiny = mazePoints[row + 1][column].point;
 
-          // if (row == rows - 1)
-          // {
-          //   newRow = row - 1;
-          //   newColumn = column;
-          // }
-
-          mazePoint.line->update(mazePoint.rect->x,
-                                 mazePoint.rect->y,
-                                 mazePoints[newRow][newColumn].rect->x,
-                                 mazePoints[newRow][newColumn].rect->y);
-
-          mazePoint.line->render();
-        }
+        mazePoints[row][column].yLine = new Line(renderer, origin->x, origin->y,
+                                                 yDestiny->x, yDestiny->y, lineColor);
+      }
+      else
+      {
+        mazePoints[row][column].yLine = NULL;
       }
     }
   }
 }
 
-bool Maze::verifyConflicts(Line *line)
+void Maze::generate()
+{
+  toggleIsGenerating();
+
+  DFS *dfs = new DFS(this);
+  dfs->depthFirstSearch(&mazePoints[0][0]);
+
+  toggleIsGenerating();
+}
+
+void Maze::removeWall(MazePoint *point, MazePoint *neighbour)
+{
+  int x = point->point->x;
+  int y = point->point->y;
+
+  Direction direction;
+
+  if (x == neighbour->point->x)
+  {
+    if (y > neighbour->point->y)
+      direction = UP;
+    else
+      direction = DOWN;
+  }
+  else
+  {
+    if (x > neighbour->point->x)
+      direction = LEFT;
+    else
+      direction = RIGHT;
+  }
+
+  switch (direction)
+  {
+  case UP:
+    delete point->xLine;
+    point->xLine = NULL;
+    break;
+  case DOWN:
+    delete neighbour->xLine;
+    neighbour->xLine = NULL;
+    break;
+  case LEFT:
+    delete point->yLine;
+    point->yLine = NULL;
+    break;
+  case RIGHT:
+    delete neighbour->yLine;
+    neighbour->yLine = NULL;
+    break;
+  }
+}
+
+void Maze::render(int screenWidth, int screenHeight)
+{
+  int xInitial = ((screenWidth / 2) - (((columns - 1) * pointDistance) / 2)) + (xOffset / 2);
+  int yInitial = ((screenHeight / 2) - (((rows - 1) * pointDistance) / 2)) + (yOffset / 2);
+
+  for (int row = 0; row < rows; row++)
+  {
+    for (int column = 0; column < columns; column++)
+    {
+      MazePoint *point = &mazePoints[row][column];
+
+      point->point->render(xInitial, yInitial);
+
+      if (point->xLine != NULL)
+        point->xLine->render(xInitial, yInitial);
+
+      if (point->yLine != NULL)
+        point->yLine->render(xInitial, yInitial);
+
+      if (!hideExplored && point->exploredCircle)
+        point->exploredCircle->render(xInitial, yInitial);
+
+      if (point->pathCircle)
+        point->pathCircle->render(xInitial, yInitial);
+    }
+  }
+}
+
+void Maze::deleteMazePoints()
 {
   for (int row = 0; row < rows; row++)
   {
     for (int column = 0; column < columns; column++)
     {
-      Line *currentLine = mazePoints[row][column].line;
+      MazePoint *point = &mazePoints[row][column];
 
-      Point A = {line->x1, line->y1};
-      Point B = {line->x2, line->y2};
-      Point C = {currentLine->x1, currentLine->y1};
-      Point D = {currentLine->x2, currentLine->y2};
-
-      return doIntersect(A, B, C, D);
+      delete point->point;
+      delete point->xLine;
+      delete point->yLine;
+      delete point->pathCircle;
+      delete point->exploredCircle;
     }
+    delete[] mazePoints[row];
   }
+  delete[] mazePoints;
 }
 
-bool Maze::doIntersect(Point p1, Point q1, Point p2, Point q2)
+void Maze::reset()
 {
-  int o1 = orientation(p1, q1, p2);
-  int o2 = orientation(p1, q1, q2);
-  int o3 = orientation(p2, q2, p1);
-  int o4 = orientation(p2, q2, q1);
-
-  if (o1 != o2 && o3 != o4)
-    return true;
-
-  if (o1 == 0 && onSegment(p1, p2, q1))
-    return true;
-
-  if (o2 == 0 && onSegment(p1, q2, q1))
-    return true;
-
-  if (o3 == 0 && onSegment(p2, p1, q2))
-    return true;
-
-  if (o4 == 0 && onSegment(p2, q1, q2))
-    return true;
-
-  return false;
+  deleteMazePoints();
+  initPoints();
+  initLines();
 }
 
-int Maze::orientation(Point p, Point q, Point r)
+void Maze::decreaseDelay()
 {
-  int val = (q.y - p.y) * (r.x - q.x) -
-            (q.x - p.x) * (r.y - q.y);
-
-  if (val == 0)
-    return 0;
-
-  return (val > 0) ? 1 : 2;
+  if (delay > 0)
+    delay -= delayStep;
 }
 
-bool Maze::onSegment(Point p, Point q, Point r)
+void Maze::increaseDelay()
 {
-  if (q.x <= MAX(p.x, r.x) && q.x >= MIN(p.x, r.x) &&
-      q.y <= MAX(p.y, r.y) && q.y >= MIN(p.y, r.y))
-    return true;
-
-  return false;
+  if (delay < 100)
+    delay += delayStep;
 }
 
-void Maze::render()
+void Maze::decreasePointDistance()
 {
-  for (int row = 0; row < rows; row++)
+  if (pointDistance > 10)
   {
-    for (int column = 0; column < columns; column++)
-    {
-      mazePoints[row][column].rect->render();
-      mazePoints[row][column].line->render();
-    }
+    pointDistance -= 1;
+    reset();
   }
 }
 
-int Maze::getRandomNumber(int max)
+void Maze::increasePointDistance()
 {
-  return rand() % max;
+  if (pointDistance < 50)
+  {
+    pointDistance += 1;
+    reset();
+  }
+}
+
+void Maze::resizeMaze(ResizeOption option)
+{
+  deleteMazePoints();
+
+  switch (option)
+  {
+  case ADD_ROW:
+    rows++;
+    break;
+  case ADD_COLUMN:
+    columns++;
+    break;
+  case REMOVE_ROW:
+    if (rows > 2)
+      rows--;
+    break;
+  case REMOVE_COLUMN:
+    if (columns > 2)
+      columns--;
+    break;
+  }
+
+  initPoints();
+  initLines();
+}
+
+void Maze::toggleHideExplored()
+{
+  hideExplored = !hideExplored;
+}
+
+void Maze::toggleIsGenerating()
+{
+  isGenerating = !isGenerating;
+}
+
+void Maze::solve()
+{
+  Pair src = make_pair(0, 0);
+  Pair dest = make_pair(rows - 2, columns - 2);
+
+  buildPathCircle(&mazePoints[src.first][src.second]);
+  buildPathCircle(&mazePoints[dest.first][dest.second]);
+
+  toggleIsGenerating();
+
+  unique_ptr<AStar> aStar = make_unique<AStar>(this);
+  aStar->aStarSearch(src, dest);
+
+  toggleIsGenerating();
+}
+
+void Maze::buildPathCircle(MazePoint *point)
+{
+  point->pathCircle = new Circle(renderer, point->point->x + pointDistance / 2,
+                                 point->point->y + pointDistance / 2, pointDistance / 6, pathCircleColor);
+}
+
+void Maze::buildExploredCircle(MazePoint *point)
+{
+  point->exploredCircle = new Circle(renderer, point->point->x + pointDistance / 2,
+                                     point->point->y + pointDistance / 2, pointDistance / 12, exploredCircleColor);
 }
