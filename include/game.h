@@ -1,6 +1,8 @@
 #ifndef GAME_H
 #define GAME_H
 
+#define SDL_MAIN_HANDLED
+
 #include <maze.h>
 #include <info.h>
 
